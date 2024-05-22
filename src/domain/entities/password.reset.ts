@@ -4,14 +4,14 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class PasswordResetRequest {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column({name: 'user_id'})
+    @Column({ name: 'user_id' })
     userId: number;
-    @Column({name: 'password_reset_code'})
+    @Column({ name: 'password_reset_code' })
     passwordResetCode: string;
-    @Column({name: 'activated_at'})
+    @Column({ name: 'activated_at' })
     activatedAt: boolean;
-    @Column({name: 'created_at'})
+    @Column({ name: 'created_at' })
     createdAt: boolean;
-    @Column({name: 'updated_at'})
+    @Column({ name: 'updated_at' })
     updatedAt: boolean;
 } 

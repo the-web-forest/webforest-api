@@ -17,4 +17,4 @@ import { Config } from 'src/domain/constants/config.constants';
   ],
   exports: [JwtModule],
 })
-export class CoreModule {}
+export class CoreModule { }
