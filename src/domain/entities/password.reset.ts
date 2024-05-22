@@ -9,9 +9,9 @@ export class PasswordResetRequest {
     @Column({ name: 'password_reset_code' })
     passwordResetCode: string;
     @Column({ name: 'activated_at' })
-    activatedAt: boolean;
+    activatedAt: Date;
     @Column({ name: 'created_at' })
-    createdAt: boolean;
+    createdAt: Date;
     @Column({ name: 'updated_at' })
-    updatedAt: boolean;
+    updatedAt: Date;
 } 
