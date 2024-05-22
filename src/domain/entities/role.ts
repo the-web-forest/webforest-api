@@ -4,6 +4,6 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class Role {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column({name: 'name'})
+    @Column({ name: 'name' })
     name: string;
 }
