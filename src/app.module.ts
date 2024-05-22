@@ -5,6 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { DataSource } from 'typeorm';
+import { User } from './domain/entities/user';
+import { PasswordResetRequest } from './domain/entities/password.reset.request';
+import { UserRole } from './domain/entities/user.role';
+import { Role } from './domain/entities/role';
 
 @Module({
   imports: [
@@ -22,7 +26,7 @@ import { DataSource } from 'typeorm';
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_DATABASE'),
-        entities: [],
+        entities: [User, UserRole, Role, PasswordResetRequest],
         synchronize: false,
       }),
       inject: [ConfigService],

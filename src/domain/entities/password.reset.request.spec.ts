@@ -1,4 +1,4 @@
-import { PasswordResetRequest } from "./password.reset";
+import { PasswordResetRequest } from "./password.reset.request";
 
 describe('PasswordResetRequest', () => {
     let entity: PasswordResetRequest = new PasswordResetRequest();
