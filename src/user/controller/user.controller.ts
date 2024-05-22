@@ -24,7 +24,11 @@ export class UserController {
     @ApiResponse({ type: NewUserControllerOutput })
     async createUser(@Body() input: NewUserControllerInput): Promise<NewUserControllerOutput> {
         this.logger.log('Creating a new user with this data', { ...input, password: '????' })
-        return Promise.resolve(null)
+        const useCaseInput = new CreateUserUseCaseInput({
+            ...input
+        })
+        const response = await this.createUserUseCase.run(useCaseInput)
+        return NewUserControllerOutput.fromUseCaseResponse(response)
     }
 
 }

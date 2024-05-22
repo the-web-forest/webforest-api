@@ -1,6 +1,6 @@
-import PartialClass from "src/domain/base/partial.class";
-import { User } from "src/domain/entities/user";
+import PartialClass from "../../../domain/base/partial.class"
 
-export default class CreateUserUseCaseOutput extends User {
-    
+export default class CreateUserUseCaseOutput extends PartialClass {
+    id: number
+    firstName: string
 }

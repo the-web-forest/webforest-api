@@ -1,4 +1,4 @@
-import PartialClass from "src/domain/base/partial.class";
+import PartialClass from "../../../domain/base/partial.class";
 
 export default class CreateUserUseCaseInput extends PartialClass {
     firstName: string;
