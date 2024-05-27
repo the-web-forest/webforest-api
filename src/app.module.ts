@@ -9,6 +9,8 @@ import { User } from './domain/entities/user';
 import { PasswordResetRequest } from './domain/entities/password.reset.request';
 import { UserRole } from './domain/entities/user.role';
 import { Role } from './domain/entities/role';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import ErrorsInterceptor from './interceptors/error.interceptor';
 
 @Module({
   imports: [
@@ -33,7 +35,10 @@ import { Role } from './domain/entities/role';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [{
+    provide: APP_INTERCEPTOR,
+    useClass: ErrorsInterceptor
+  }],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) { }

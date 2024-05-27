@@ -5,6 +5,7 @@ import { Inject, Logger } from "@nestjs/common";
 import { IUserRepository } from "src/domain/interfaces/repositories/user.repository.interface";
 import { UserRepositoryToken } from "../user.tokens";
 import * as argon2 from 'argon2';
+import UserAlreadyRegistered from "src/core/error/user.already.registered.error";
 
 export default class CreateUserUseCase implements IUseCase<CreateUserUseCaseInput, CreateUserUseCaseOutput> {
     private readonly logger = new Logger(CreateUserUseCase.name);
@@ -16,9 +17,9 @@ export default class CreateUserUseCase implements IUseCase<CreateUserUseCaseInpu
     async run(input: CreateUserUseCaseInput): Promise<CreateUserUseCaseOutput> {
 
         const user = await this.userRepository.findOne({ where: { email: input.email } })
-
+        
         if (user) {
-            throw new Error('User Already Exists')
+            throw new UserAlreadyRegistered()
         }
 
         const newUser = await this.userRepository.save({

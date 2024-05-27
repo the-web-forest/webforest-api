@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Logger, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Logger, Post, UseInterceptors } from '@nestjs/common';
 import { NewUserControllerInput } from './dto/new.user.controller.input';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import NewUserControllerOutput from './dto/new.user.controller.output';
@@ -7,6 +7,7 @@ import IUseCase from 'src/domain/interfaces/usecase/IUseCase';
 import { CreateUserUseCaseToken } from '../user.tokens';
 import CreateUserUseCaseInput from '../usecases/dtos/create.user.usecase.input';
 import CreateUserUseCaseOutput from '../usecases/dtos/create.user.usecase.output';
+import ErrorsInterceptor from 'src/interceptors/error.interceptor';
 
 @Controller('user')
 @ApiTags('User')
