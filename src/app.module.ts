@@ -11,6 +11,9 @@ import { UserRole } from './domain/entities/user.role';
 import { Role } from './domain/entities/role';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import ErrorsInterceptor from './interceptors/error.interceptor';
+import { ActivationRequest } from './domain/entities/activation.request';
+import { MailServiceToken } from './app.tokens';
+import MailService from './external/services/mail.service';
 
 @Module({
   imports: [
@@ -28,7 +31,7 @@ import ErrorsInterceptor from './interceptors/error.interceptor';
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_DATABASE'),
-        entities: [User, UserRole, Role, PasswordResetRequest],
+        entities: [User, UserRole, Role, PasswordResetRequest, ActivationRequest],
         synchronize: false,
       }),
       inject: [ConfigService],

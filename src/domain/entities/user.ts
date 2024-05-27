@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Role } from "./role";
+import { ActivationRequest } from "./activation.request";
 
 @Entity('user')
 export class User extends BaseEntity {
@@ -44,4 +45,7 @@ export class User extends BaseEntity {
       },
     })
     roles: Role[];
+
+    @OneToMany(activationRequest => ActivationRequest, activationRequest => activationRequest.id)
+    activationRequests: ActivationRequest[];
 }

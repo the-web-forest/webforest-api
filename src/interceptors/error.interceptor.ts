@@ -15,6 +15,7 @@ export default class ErrorsInterceptor implements NestInterceptor {
         .pipe(
           catchError(err => {
             try {
+              this.logger.error(err)
                 const errorPayload = JSON.parse(err.message)
                 this.logger.error('Erro')
                 this.logger.error(errorPayload)
