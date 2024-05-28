@@ -13,5 +13,3 @@
 |WF-0002 |User Not Found|
 |WF-0003 |User Not Activated|
 |WF-0004 |NickName Already Registered|
-
-
