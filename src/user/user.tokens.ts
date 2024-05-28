@@ -1,6 +1,7 @@
 export const CreateUserUseCaseToken = Symbol('CreateUserUseCaseToken');
 export const SendUserActivationEmailUseCaseToken = Symbol('SendUserActivationEmailUseCaseToken');
 export const ValidateUserActivationEmailUseCaseToken = Symbol('ValidateUserActivationEmailUseCaseToken');
+export const UserLoginUseCaseToken = Symbol('UserLoginUseCaseToken');
 
 export const UserRepositoryToken = Symbol('UserRepositoryToken');
 export const RoleRepositoryToken = Symbol('RoleRepositoryToken');

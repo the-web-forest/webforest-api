@@ -11,5 +11,6 @@
 |--|--|
 |WF-0001 |User Already Registered|
 |WF-0002 |User Not Found|
+|WF-0003 |User Not Activated|
 
 

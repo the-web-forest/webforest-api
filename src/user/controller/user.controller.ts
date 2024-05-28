@@ -1,10 +1,10 @@
-import { Body, Controller, Inject, Logger, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Inject, Logger, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { NewUserControllerInput } from './dto/new.user.controller.input';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import NewUserControllerOutput from './dto/new.user.controller.output';
 import { Public } from '../../auth/decorators/public.decorator';
 import IUseCase from 'src/domain/interfaces/usecase/IUseCase';
-import { CreateUserUseCaseToken, SendUserActivationEmailUseCaseToken, ValidateUserActivationEmailUseCaseToken } from '../user.tokens';
+import { CreateUserUseCaseToken, SendUserActivationEmailUseCaseToken, UserLoginUseCaseToken, ValidateUserActivationEmailUseCaseToken } from '../user.tokens';
 import CreateUserUseCaseInput from '../usecases/dtos/create.user.usecase.input';
 import CreateUserUseCaseOutput from '../usecases/dtos/create.user.usecase.output';
 import { SendUserActivationRequestInput } from './dto/send.user.activation.request.input';
@@ -15,6 +15,13 @@ import { ValidateUserActivationRequestInput } from './dto/validate.user.activati
 import { ValidateUserActivationRequestOutput } from './dto/validate.user.activation.request.output';
 import ValidateUserActivationEmailUseCaseInput from '../usecases/dtos/validate.user.activation.email.usecase.input';
 import ValidateUserActivationEmailUseCaseOutput from '../usecases/dtos/validate.user.activation.email.usecase.output';
+import UserLoginRequestInput from './dto/user.login.request.input';
+import UserLoginRequestOutput from './dto/user.login.request.output';
+import UserLoginUseCaseInput from '../usecases/dtos/user.login.usecase.input';
+import UserLoginUseCaseOutput from '../usecases/dtos/user.login.usecase.output';
+import { AuthGuard } from '../../auth/guards/auth.guard';
+import { Roles } from '../../auth/decorators/role.decorator';
+import { RolesEnum } from '../../auth/enums/roles';
 
 @Controller('user')
 @ApiTags('User')
@@ -29,8 +36,12 @@ export class UserController {
         private readonly sendUserActivationEmailUseCase: IUseCase<SendUserActivationEmailUseCaseInput, SendUserActivationEmailUseCaseOutput>,
 
         @Inject(ValidateUserActivationEmailUseCaseToken)
-        private readonly validateUserActivationEmailUseCase: IUseCase<ValidateUserActivationEmailUseCaseInput, ValidateUserActivationEmailUseCaseOutput>
-  
+        private readonly validateUserActivationEmailUseCase: IUseCase<ValidateUserActivationEmailUseCaseInput, ValidateUserActivationEmailUseCaseOutput>,
+
+        @Inject(UserLoginUseCaseToken)
+        private readonly userLogerUseCase: IUseCase<UserLoginUseCaseInput, UserLoginUseCaseOutput>
+
+
     ) { }
 
     @Post()
@@ -69,7 +80,19 @@ export class UserController {
             hash: input.hash
         })
         const response = await this.validateUserActivationEmailUseCase.run(useCaseInput)
-        return ValidateUserActivationRequestOutput.fromUseCaseResponse(response) as any
+        return ValidateUserActivationRequestOutput.fromUseCaseResponse(response)
+    }
+
+    @Post('login')
+    @Public()
+    @ApiOperation({ summary: 'User Login' })
+    async login(@Body() input: UserLoginRequestInput): Promise<UserLoginRequestOutput> {
+        this.logger.log('User login with this data', { ...input, password: '????' })
+        const useCaseInput = new UserLoginUseCaseInput({
+            ...input
+        })
+        const response = await this.userLogerUseCase.run(useCaseInput)
+        return UserLoginRequestOutput.fromUseCaseResponse(response)
     }
 
 }
