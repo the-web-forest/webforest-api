@@ -17,11 +17,13 @@ import UserSeedTestHelper from "../../test-utils/database/user.seed";
 import { IRoleRepository } from "../../domain/interfaces/repositories/role.repository.interface";
 import { IUserRepository } from "../../domain/interfaces/repositories/user.repository.interface";
 import { RolesEnum } from "../../auth/enums/roles";
+import { IActivationRequestRepository } from "../../domain/interfaces/repositories/activation.request.repository.interface";
 
 describe('Send User Activation Email Use Case', () => {
     let usecase: IUseCase<SendUserActivationEmailUseCaseInput, SendUserActivationEmailUseCaseOutput>
     let roleRepository: IRoleRepository
     let userRepository: IUserRepository
+    let activationRequestRepository: IActivationRequestRepository
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [...TypeOrmSQLITETestingModule()],
@@ -53,6 +55,7 @@ describe('Send User Activation Email Use Case', () => {
         usecase = module.get<IUseCase<SendUserActivationEmailUseCaseInput, SendUserActivationEmailUseCaseOutput>>(SendUserActivationEmailUseCaseToken)
         roleRepository = module.get<RoleRepository>(RoleRepositoryToken)
         userRepository = module.get<UserRepository>(UserRepositoryToken)
+        activationRequestRepository = module.get<ActivationRequestRepository>(ActivationRequestRepositoryToken)
         await RoleSeedTestHelper.seed(roleRepository)
         await UserSeedTestHelper.seed(userRepository)
     });
@@ -91,6 +94,24 @@ describe('Send User Activation Email Use Case', () => {
             await usecase.run(input)
         }).rejects.toThrow('{\"message\":\"User Not Found\",\"code\":\"WF-0002\"}');
 
+    });
+
+    it('should create an send user activation email register', async () => {
+        const testMail = 'ana.silva@example.com'
+        const user = await userRepository.findOne({ where: { email: testMail } })
+        const tempUserRole = await roleRepository.findOne({ where: { id: RolesEnum.TempUser } })
+        user.roles = [tempUserRole]
+        await userRepository.save(user)
+
+        const input = new SendUserActivationEmailUseCaseInput({ email: testMail })
+        await usecase.run(input)
+        const activationRequest = await activationRequestRepository.findOne({ where: { user }, relations: ['user'] })
+        expect(activationRequest).toBeDefined()
+        expect(activationRequest.user.id).toBe(user.id)
+        expect(activationRequest.hash).toBeDefined()
+        expect(activationRequest.activatedAt).toBeNull()
+        expect(activationRequest.createdAt).toBeDefined()
+        expect(activationRequest.createdAt).toBeInstanceOf(Date)
     });
 
 });
