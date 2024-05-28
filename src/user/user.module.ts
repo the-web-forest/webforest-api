@@ -5,6 +5,7 @@ import {
   CreateUserUseCaseToken,
   RoleRepositoryToken,
   SendUserActivationEmailUseCaseToken,
+  UpdateUserUseCaseToken,
   UserLoginUseCaseToken,
   UserRepositoryToken,
   ValidateUserActivationEmailUseCaseToken,
@@ -22,6 +23,7 @@ import { MailServiceToken } from 'src/app.tokens';
 import MailService from 'src/external/services/mail.service';
 import ValidateUserActivationEmailUseCase from './usecases/validate.user.activation.email.usecase';
 import UserLoginUseCase from './usecases/user.login.usecase';
+import UpdateUserUseCase from './usecases/update.user.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Role, ActivationRequest])],
@@ -43,6 +45,10 @@ import UserLoginUseCase from './usecases/user.login.usecase';
     {
       provide: UserLoginUseCaseToken,
       useClass: UserLoginUseCase,
+    },
+    {
+      provide: UpdateUserUseCaseToken,
+      useClass: UpdateUserUseCase,
     },
 
     // Repositories

@@ -1,10 +1,14 @@
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
   Inject,
   Logger,
+  Patch,
   Post,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { NewUserControllerInput } from './dto/new.user.controller.input';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -14,6 +18,7 @@ import IUseCase from 'src/domain/interfaces/usecase/IUseCase';
 import {
   CreateUserUseCaseToken,
   SendUserActivationEmailUseCaseToken,
+  UpdateUserUseCaseToken,
   UserLoginUseCaseToken,
   ValidateUserActivationEmailUseCaseToken,
 } from '../user.tokens';
@@ -31,6 +36,11 @@ import UserLoginRequestInput from './dto/user.login.request.input';
 import UserLoginRequestOutput from './dto/user.login.request.output';
 import UserLoginUseCaseInput from '../usecases/dtos/user.login.usecase.input';
 import UserLoginUseCaseOutput from '../usecases/dtos/user.login.usecase.output';
+import { User } from '../../domain/entities/user';
+import UserUpdateRequestInput from './dto/user.update.request.input';
+import UpdateUserUseCaseInput from '../usecases/dtos/update.user.usecase.input';
+import UpdateUserUseCaseOutput from '../usecases/dtos/update.user.usecase.output';
+import UserUpdateRequestOutput from './dto/user.update.request.output';
 @Controller('user')
 @ApiTags('User')
 export class UserController {
@@ -60,7 +70,10 @@ export class UserController {
       UserLoginUseCaseInput,
       UserLoginUseCaseOutput
     >,
-  ) {}
+
+    @Inject(UpdateUserUseCaseToken)
+    private readonly updateUserUseCase: IUseCase<UpdateUserUseCaseInput, UpdateUserUseCaseOutput>
+  ) { }
 
   @Post()
   @Public()
@@ -135,5 +148,20 @@ export class UserController {
     });
     const response = await this.userLogerUseCase.run(useCaseInput);
     return UserLoginRequestOutput.fromUseCaseResponse(response);
+  }
+
+  @Patch()
+  @ApiOperation({ summary: 'User Self Update' })
+  async updateUserProfile(@Body() input: UserUpdateRequestInput, @Req() request: { user: User }): Promise<UserUpdateRequestOutput> {
+    this.logger.log(`User ${request.user.email} is self updating with this data`, { ...input })
+    const useCaseInput = new UpdateUserUseCaseInput({
+      firstName: input.firstName,
+      lastName: input.lastName,
+      password: input.password,
+      nickName: input.nickName,
+      id: request.user.id
+    });
+    const response = await this.updateUserUseCase.run(useCaseInput);
+    return UserUpdateRequestOutput.fromUseCaseResponse(response);
   }
 }
