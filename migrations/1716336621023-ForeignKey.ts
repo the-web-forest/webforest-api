@@ -9,9 +9,9 @@ export class ForeignKey1716336621023 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE user_role DROP FOREIGN KEY FK_user_role_user_id;`);
-        await queryRunner.query(`ALTER TABLE user_role DROP FOREIGN KEY FK_user_role_role_id;`);
-        await queryRunner.query(`ALTER TABLE password_reset_request DROP FOREIGN KEY FK_password_reset_request_user_id;`);
+        await queryRunner.query(`ALTER TABLE user_role DROP FOREIGN KEY user_role_ibfk_1;`);
+        await queryRunner.query(`ALTER TABLE user_role DROP FOREIGN KEY user_role_ibfk_2;`);
+        await queryRunner.query(`ALTER TABLE password_reset_request DROP FOREIGN KEY password_reset_request_ibfk_1;`);
     }
 
 }

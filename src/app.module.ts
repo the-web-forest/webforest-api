@@ -5,6 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { DataSource } from 'typeorm';
+import { User } from './domain/entities/user';
+import { PasswordResetRequest } from './domain/entities/password.reset.request';
+import { Role } from './domain/entities/role';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import ErrorsInterceptor from './interceptors/error.interceptor';
+import { ActivationRequest } from './domain/entities/activation.request';
 
 @Module({
   imports: [
@@ -22,15 +28,20 @@ import { DataSource } from 'typeorm';
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_DATABASE'),
-        entities: [],
+        entities: [User, Role, PasswordResetRequest, ActivationRequest],
         synchronize: false,
       }),
       inject: [ConfigService],
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ErrorsInterceptor,
+    },
+  ],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) { }
+  constructor(private dataSource: DataSource) {}
 }

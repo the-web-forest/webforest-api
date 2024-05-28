@@ -1,20 +1,47 @@
-import { ApiProperty } from "@nestjs/swagger"
-import PartialClass from "../../../domain/base/partial.class"
-import CreateUserUseCaseOutput from "../../../user/usecases/dtos/create.user.usecase.output"
+import { ApiProperty } from '@nestjs/swagger';
+import PartialClass from '../../../domain/base/partial.class';
+import CreateUserUseCaseOutput from '../../../user/usecases/dtos/create.user.usecase.output';
+import { first } from 'rxjs';
 
 export default class NewUserControllerOutput extends PartialClass {
-    @ApiProperty({
-        description: 'User created id'
-    })
-    id: number
-    @ApiProperty({
-        description: 'User created name'
-    })
-    firstName: string
+  @ApiProperty({
+    description: 'User id',
+  })
+  id: number;
+  @ApiProperty({
+    description: 'User first name',
+  })
+  firstName: string;
+  @ApiProperty({
+    description: 'User last name',
+  })
+  lastName: string;
+  @ApiProperty({
+    description: 'User nick name',
+  })
+  nickName: string;
+  @ApiProperty({
+    description: 'User email',
+  })
+  email: string;
+  @ApiProperty({
+    description: 'User created date',
+  })
+  createdAt: Date;
+  @ApiProperty({
+    description: 'User updated date',
+  })
+  updatedAt: Date;
 
-    static fromUseCaseResponse(data: CreateUserUseCaseOutput) {
-        return new CreateUserUseCaseOutput({
-            ...data
-        })
-    }
+  static fromUseCaseResponse(data: CreateUserUseCaseOutput) {
+    return new CreateUserUseCaseOutput({
+      id: data.id,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      nickName: data.nickName,
+      email: data.email,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+    });
+  }
 }
