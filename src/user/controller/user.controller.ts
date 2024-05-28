@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Logger, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Inject, Logger, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { NewUserControllerInput } from './dto/new.user.controller.input';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import NewUserControllerOutput from './dto/new.user.controller.output';
@@ -22,6 +22,8 @@ import UserLoginUseCaseOutput from '../usecases/dtos/user.login.usecase.output';
 import { AuthGuard } from '../../auth/guards/auth.guard';
 import { Roles } from '../../auth/decorators/role.decorator';
 import { RolesEnum } from '../../auth/enums/roles';
+import UserNotFoundError from '../../core/error/user.not.found.error';
+import UserNotActivatedError from '../../core/error/user.not.activated.error';
 
 @Controller('user')
 @ApiTags('User')
@@ -47,7 +49,7 @@ export class UserController {
     @Post()
     @Public()
     @ApiOperation({ summary: 'Create a User' })
-    @ApiResponse({ type: NewUserControllerOutput })
+    @ApiResponse({ status: HttpStatus.OK, type: NewUserControllerOutput })
     async createUser(@Body() input: NewUserControllerInput): Promise<NewUserControllerOutput> {
         this.logger.log('Creating a new user with this data', { ...input, password: '????' })
         const useCaseInput = new CreateUserUseCaseInput({
@@ -60,7 +62,7 @@ export class UserController {
     @Post('activation/email/send')
     @Public()
     @ApiOperation({ summary: 'Send Activation Request E-mail' })
-    @ApiResponse({ type: SendUserActivationRequestOutput })
+    @ApiResponse({ status: HttpStatus.OK, type: SendUserActivationRequestOutput })
     async sendActivationRequestEmail(@Body() input: SendUserActivationRequestInput): Promise<SendUserActivationRequestOutput> {
         this.logger.log('Creating a new activation user e-mail request', { ...input })
         const useCaseInput = new SendUserActivationEmailUseCaseInput({
@@ -73,7 +75,7 @@ export class UserController {
     @Post('activation/email/validate')
     @Public()
     @ApiOperation({ summary: 'Send Activation Request E-mail' })
-    @ApiResponse({ type: ValidateUserActivationRequestOutput })
+    @ApiResponse({ status: HttpStatus.OK, type: ValidateUserActivationRequestOutput })
     async validateActivationRequestEmail(@Body() input: ValidateUserActivationRequestInput): Promise<ValidateUserActivationRequestOutput> {
         this.logger.log('Validating a new activation user e-mail request', { ...input })
         const useCaseInput = new ValidateUserActivationEmailUseCaseInput({
@@ -86,6 +88,7 @@ export class UserController {
     @Post('login')
     @Public()
     @ApiOperation({ summary: 'User Login' })
+    @ApiResponse({ status: HttpStatus.OK, type: UserLoginRequestOutput })
     async login(@Body() input: UserLoginRequestInput): Promise<UserLoginRequestOutput> {
         this.logger.log('User login with this data', { ...input, password: '????' })
         const useCaseInput = new UserLoginUseCaseInput({

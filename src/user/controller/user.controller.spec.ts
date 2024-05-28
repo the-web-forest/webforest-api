@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { NewUserControllerInput } from './dto/new.user.controller.input';
-import { CreateUserUseCaseToken, SendUserActivationEmailUseCaseToken, ValidateUserActivationEmailUseCaseToken } from '../user.tokens';
+import { CreateUserUseCaseToken, SendUserActivationEmailUseCaseToken, UserLoginUseCaseToken, ValidateUserActivationEmailUseCaseToken } from '../user.tokens';
 import CreateUserUseCaseOutput from '../usecases/dtos/create.user.usecase.output';
 import SendUserActivationEmailUseCaseOutput from '../usecases/dtos/send.user.activation.email.usecase.output';
 import { SendUserActivationRequestInput } from './dto/send.user.activation.request.input';
@@ -10,6 +10,10 @@ import ValidateUserActivationEmailUseCase from '../usecases/validate.user.activa
 import { ValidateUserActivationRequestInput } from './dto/validate.user.activation.request.input';
 import ValidateUserActivationEmailUseCaseOutput from '../usecases/dtos/validate.user.activation.email.usecase.output';
 import { ValidateUserActivationRequestOutput } from './dto/validate.user.activation.request.output';
+import UserLoginUseCaseOutput from '../usecases/dtos/user.login.usecase.output';
+import { faker } from '@faker-js/faker';
+import UserLoginRequestInput from './dto/user.login.request.input';
+import UserLoginRequestOutput from './dto/user.login.request.output';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -27,6 +31,11 @@ describe('UserController', () => {
   const validateUserActivationEmailUseCaseResponse = new ValidateUserActivationEmailUseCaseOutput({
     email: "mdbf43@gmail.com",
     processedAt: new Date()
+  })
+
+  const userLoginUseCaseResponse = new UserLoginUseCaseOutput({
+    token: faker.string.uuid(),
+    expiration: faker.date.anytime()
   })
 
   beforeEach(async () => {
@@ -48,6 +57,12 @@ describe('UserController', () => {
           provide: ValidateUserActivationEmailUseCaseToken,
           useValue: {
             run: jest.fn().mockReturnValue(validateUserActivationEmailUseCaseResponse)
+          }
+        },
+        {
+          provide: UserLoginUseCaseToken,
+          useValue: {
+            run: jest.fn().mockReturnValue(userLoginUseCaseResponse)
           }
         }
       ]
@@ -81,6 +96,14 @@ describe('UserController', () => {
     expect(controllerResponse.email).toBe(validateUserActivationEmailUseCaseResponse.email)
     expect(controllerResponse.processedAt).toBe(validateUserActivationEmailUseCaseResponse.processedAt)
     expect(controllerResponse).toBeInstanceOf(ValidateUserActivationRequestOutput)
+  });
+
+  it('should call usecase.run on login', async () => {
+    const input = new UserLoginRequestInput()
+    const controllerResponse = await controller.login(input);
+    expect(controllerResponse.expiration).toBe(userLoginUseCaseResponse.expiration)
+    expect(controllerResponse.token).toBe(userLoginUseCaseResponse.token)
+    expect(controllerResponse).toBeInstanceOf(UserLoginRequestOutput)
   });
 
 });

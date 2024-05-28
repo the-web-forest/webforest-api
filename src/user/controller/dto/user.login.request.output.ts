@@ -8,6 +8,11 @@ export default class UserLoginRequestOutput extends PartialClass {
   })
   token: string;
 
+  @ApiProperty({
+    description: 'User token expiration date'
+  })
+  expiration: Date
+
   static fromUseCaseResponse(data: UserLoginUseCaseOutput) {
     return new UserLoginRequestOutput({
       ...data
