@@ -12,8 +12,7 @@ import { IUserRepository } from '../../domain/interfaces/repositories/user.repos
 import IUseCase from '../../domain/interfaces/usecase/IUseCase';
 
 export default class CreateUserUseCase
-  implements IUseCase<CreateUserUseCaseInput, CreateUserUseCaseOutput>
-{
+  implements IUseCase<CreateUserUseCaseInput, CreateUserUseCaseOutput> {
   private readonly logger = new Logger(CreateUserUseCase.name);
   constructor(
     @Inject(UserRepositoryToken)
@@ -21,7 +20,7 @@ export default class CreateUserUseCase
 
     @Inject(RoleRepositoryToken)
     private readonly roleRepository: IRoleRepository,
-  ) {}
+  ) { }
 
   async run(input: CreateUserUseCaseInput): Promise<CreateUserUseCaseOutput> {
     const user = await this.userRepository.findOne({
@@ -39,12 +38,53 @@ export default class CreateUserUseCase
   private async saveUser(input: CreateUserUseCaseInput): Promise<User> {
     return await this.userRepository.save({
       ...input,
+      nickName: await this.generateAValidNickName(input.firstName, input.lastName),
       password: await this.generatePassword(input.password),
       roles: [await this.getTempUserRole()],
       createdAt: new Date(),
       updatedAt: new Date(),
     });
   }
+
+  private async generateAValidNickName(
+    firstName: string,
+    lastName: string,
+  ): Promise<string> {
+    let nickName = await this.generateNickName(firstName, lastName);
+    let userWithSameNickName = await this.userRepository.findOne({
+      where: { nickName },
+    });
+
+    while (userWithSameNickName) {
+      nickName = await this.generateNickName(firstName, lastName);
+      userWithSameNickName = await this.userRepository.findOne({
+        where: { nickName },
+      });
+    }
+
+    return nickName;
+  }
+
+  private async generateNickName(
+    firstName: string,
+    lastName: string,
+  ): Promise<string> {
+    const maxNicknameLength = 16;
+    const randomNum = Math.floor(Math.random() * 1000);
+
+    firstName = firstName.replace(/\s+/g, '');
+    lastName = lastName.replace(/\s+/g, '');
+
+    let nickname = firstName + lastName + randomNum;
+
+    if (nickname.length > maxNicknameLength) {
+      const excessLength = nickname.length - maxNicknameLength;
+      nickname = nickname.substring(0, nickname.length - excessLength);
+    }
+
+    return nickname;
+  }
+
 
   private async getTempUserRole(): Promise<Role> {
     return await this.roleRepository.findOne({

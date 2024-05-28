@@ -20,6 +20,7 @@ import { IRoleRepository } from '../../domain/interfaces/repositories/role.repos
 import { IUserRepository } from '../../domain/interfaces/repositories/user.repository.interface';
 import { RolesEnum } from '../../auth/enums/roles';
 import { IActivationRequestRepository } from '../../domain/interfaces/repositories/activation.request.repository.interface';
+import { IsNull, Not } from 'typeorm';
 
 describe('Send User Activation Email Use Case', () => {
   let usecase: IUseCase<
@@ -85,7 +86,7 @@ describe('Send User Activation Email Use Case', () => {
   });
 
   it('should find an registered user with the correct role', async () => {
-    const testMail = 'ana.silva@example.com';
+    const testMail = (await userRepository.findOne({ where: {} })).email;
     const user = await userRepository.findOne({ where: { email: testMail } });
     const tempUserRole = await roleRepository.findOne({
       where: { id: RolesEnum.TempUser },
@@ -100,7 +101,7 @@ describe('Send User Activation Email Use Case', () => {
   });
 
   it('should not find an registered user with the incorrect role', async () => {
-    const testMail = 'ana.silva@example.com';
+    const testMail = (await userRepository.findOne({ where: {} })).email;
     const user = await userRepository.findOne({ where: { email: testMail } });
     const tempUserRole = await roleRepository.findOne({
       where: { id: RolesEnum.User },
@@ -116,7 +117,7 @@ describe('Send User Activation Email Use Case', () => {
   });
 
   it('should create an send user activation email register', async () => {
-    const testMail = 'ana.silva@example.com';
+    const testMail = (await userRepository.findOne({ where: {} })).email;
     const user = await userRepository.findOne({ where: { email: testMail } });
     const tempUserRole = await roleRepository.findOne({
       where: { id: RolesEnum.TempUser },

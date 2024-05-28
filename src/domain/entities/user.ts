@@ -15,28 +15,31 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'first_name' })
+  @Column({ name: 'first_name', nullable: false })
   firstName: string;
 
-  @Column({ name: 'last_name' })
+  @Column({ name: 'last_name', nullable: false })
   lastName: string;
 
-  @Column({ name: 'email' })
+  @Column({ name: 'nick_name', nullable: false })
+  nickName: string;
+
+  @Column({ name: 'email', nullable: false })
   email: string;
 
-  @Column({ name: 'password' })
+  @Column({ name: 'password', nullable: false })
   password: string;
 
-  @Column({ name: 'is_active', default: true })
+  @Column({ name: 'is_active', default: true, nullable: false })
   isActive: boolean;
 
-  @Column({ name: 'is_deleted', default: false })
+  @Column({ name: 'is_deleted', default: false, nullable: false })
   isDeleted: boolean;
 
-  @Column({ name: 'created_at' })
+  @Column({ name: 'created_at', nullable: false })
   createdAt: Date;
 
-  @Column({ name: 'updated_at' })
+  @Column({ name: 'updated_at', nullable: true })
   updatedAt: Date;
 
   @ManyToMany(() => Role, (role) => role.users)

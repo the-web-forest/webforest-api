@@ -5,6 +5,7 @@ export default class CreateUserUseCaseOutput extends PartialClass {
   id: number;
   firstName: string;
   lastName: string;
+  nickName: string;
   email: string;
   isActive: boolean;
   isDeleted: boolean;
@@ -17,6 +18,7 @@ export default class CreateUserUseCaseOutput extends PartialClass {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
+      nickName: user.nickName,
       isActive: user.isActive,
       isDeleted: user.isDeleted,
       createdAt: user.createdAt,

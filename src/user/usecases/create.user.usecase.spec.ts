@@ -11,9 +11,11 @@ import CreateUserUseCaseOutput from './dtos/create.user.usecase.output';
 import IUseCase from '../../domain/interfaces/usecase/IUseCase';
 import CreateUserUseCase from './create.user.usecase';
 import RoleRepository from '../../external/repositories/role.repository';
+import { faker } from '@faker-js/faker/locale/af_ZA';
 
 describe('Create User Use Case', () => {
   let usecase: IUseCase<CreateUserUseCaseInput, CreateUserUseCaseOutput>;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [...TypeOrmSQLITETestingModule()],
@@ -37,12 +39,19 @@ describe('Create User Use Case', () => {
     >(CreateUserUseCaseToken);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should create an user', async () => {
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
     const user1 = {
-      firstName: 'Matheus',
-      lastName: 'Barros',
-      email: 'mdbf42@gmail.com',
-      password: 'teste123',
+      firstName: firstName,
+      lastName: lastName,
+      nickName: faker.internet.userName({ firstName, lastName }),
+      email: faker.internet.email({ firstName, lastName }),
+      password: faker.internet.password(),
     };
     const input = new CreateUserUseCaseInput(user1);
     const response = await usecase.run(input);
@@ -53,12 +62,81 @@ describe('Create User Use Case', () => {
     expect(response.isDeleted).toBe(false);
   });
 
-  it('should not create an user with same email', async () => {
+  it('should create an random nickname', async () => {
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+
     const user1 = {
-      firstName: 'Matheus',
-      lastName: 'Barros',
-      email: 'mdbf43@gmail.com',
-      password: 'teste123',
+      firstName: firstName,
+      lastName: lastName,
+      email: faker.internet.email({ firstName, lastName }),
+      password: faker.internet.password(),
+    };
+
+    const user2 = {
+      firstName: firstName,
+      lastName: lastName,
+      email: faker.internet.email({ firstName, lastName, provider: 'webforest.eco' }),
+      password: faker.internet.password(),
+    };
+    const response1 = await usecase.run(new CreateUserUseCaseInput(user1));
+    const response2 = await usecase.run(new CreateUserUseCaseInput(user2));
+    const isSameNickName = response1.nickName === response2.nickName
+    expect(response1.nickName).toBeDefined()
+    expect(response2.nickName).toBeDefined()
+    expect(isSameNickName).toBeFalsy()
+  });
+
+  it('should not create an nickname bigger than 16 characters', async () => {
+    const firstName = 'FredericoAntonio';
+    const lastName = 'MonteirodaSilva'
+    const user1 = {
+      firstName: firstName,
+      lastName: lastName,
+      nickName: faker.internet.userName({ firstName, lastName }),
+      email: faker.internet.email({ firstName, lastName }),
+      password: faker.internet.password(),
+    };
+    const input = new CreateUserUseCaseInput(user1);
+    const response = await usecase.run(input);
+    expect(response.nickName.length).toBe(16);
+  });
+
+  it('should create an random nickname looking in database', async () => {
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+
+    const user1 = {
+      firstName: firstName,
+      lastName: lastName,
+      email: faker.internet.email({ firstName, lastName }),
+      password: faker.internet.password(),
+    };
+
+    const user2 = {
+      firstName: firstName,
+      lastName: lastName,
+      email: faker.internet.email({ firstName, lastName, provider: 'webforest.eco' }),
+      password: faker.internet.password(),
+    };
+
+    const response1 = await usecase.run(new CreateUserUseCaseInput(user1));
+    jest.spyOn(usecase as any, 'generateNickName').mockResolvedValueOnce(response1.nickName).mockResolvedValue(faker.internet.userName())
+    const response2 = await usecase.run(new CreateUserUseCaseInput(user2));
+    expect(response1.nickName).toBeDefined()
+    expect(response2.nickName).toBeDefined()
+    expect(response1.nickName).not.toBe(response2.nickName)
+  });
+
+  it('should not create an user with same email', async () => {
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const user1 = {
+      firstName: firstName,
+      lastName: lastName,
+      nickName: faker.internet.userName({ firstName, lastName }),
+      email: faker.internet.email({ firstName, lastName }),
+      password: faker.internet.password(),
     };
     const input = new CreateUserUseCaseInput(user1);
     await usecase.run(input);

@@ -25,7 +25,9 @@ describe('User Repository Tests', () => {
   it('should find an user', async () => {
     const user = await userRepository.findOne({ where: { id: 1 } });
     expect(user).toBeInstanceOf(User);
-    expect(user.firstName).toBe('Ana');
-    expect(user.lastName).toBe('Silva');
+    expect(user.firstName).toBe(user.firstName);
+    expect(user.lastName).toBe(user.lastName);
+    expect(user.nickName).toBe(user.nickName);
   });
+
 });

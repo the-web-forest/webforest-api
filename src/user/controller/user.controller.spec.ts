@@ -24,7 +24,12 @@ describe('UserController', () => {
 
   const createUserUseCaseResponse = new CreateUserUseCaseOutput({
     id: 1,
-    firstName: 'Matheus',
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    nickName: faker.internet.userName(),
+    email: faker.internet.email(),
+    createdAt: faker.date.anytime(),
+    updatedAt: faker.date.anytime()
   });
 
   const sendUserActivationEmailUseCaseResponse =

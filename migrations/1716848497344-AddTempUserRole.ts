@@ -7,6 +7,7 @@ export class AddTempUserRole1716848497344 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`DELETE FROM user_role WHERE role_id = 3`);
         await queryRunner.query(`DELETE FROM role WHERE id = '3';`);
     }
 
