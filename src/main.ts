@@ -1,6 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerDocumentOptions, SwaggerModule } from '@nestjs/swagger';
+import {
+  DocumentBuilder,
+  SwaggerDocumentOptions,
+  SwaggerModule,
+} from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
@@ -10,14 +14,14 @@ async function bootstrap() {
     origin: true,
   });
   const config = new DocumentBuilder()
-  .setTitle('Web Forest API')
-  .setDescription('The Web Forest API description')
-  .setVersion('1.0')
-  .build();
-  const options: SwaggerDocumentOptions =  {
-    deepScanRoutes: true
+    .setTitle('Web Forest API')
+    .setDescription('The Web Forest API description')
+    .setVersion('1.0')
+    .build();
+  const options: SwaggerDocumentOptions = {
+    deepScanRoutes: true,
   };
-const document = SwaggerModule.createDocument(app, config, options);
+  const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api', app, document);
   await app.listen(3000);
 }

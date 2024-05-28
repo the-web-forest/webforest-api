@@ -1,9 +1,9 @@
-import { PasswordResetRequest } from "./password.reset.request";
+import { PasswordResetRequest } from './password.reset.request';
 
 describe('PasswordResetRequest', () => {
-    let entity: PasswordResetRequest = new PasswordResetRequest();
+  const entity: PasswordResetRequest = new PasswordResetRequest();
 
-    it('should be defined', () => {
-        expect(entity).toBeDefined();
-    });
+  it('should be defined', () => {
+    expect(entity).toBeDefined();
+  });
 });

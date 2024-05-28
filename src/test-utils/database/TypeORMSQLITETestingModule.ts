@@ -4,7 +4,7 @@ import { PasswordResetRequest } from '../../domain/entities/password.reset.reque
 import { Role } from '../../domain/entities/role';
 import { User } from '../../domain/entities/user';
 
-const entities = [Role, User, ActivationRequest, PasswordResetRequest]
+const entities = [Role, User, ActivationRequest, PasswordResetRequest];
 
 export const TypeOrmSQLITETestingModule = () => [
   TypeOrmModule.forRoot({

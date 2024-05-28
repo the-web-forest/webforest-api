@@ -1,6 +1,6 @@
-import PartialClass from "../../../domain/base/partial.class";
+import PartialClass from '../../../domain/base/partial.class';
 
 export default class SendUserActivationEmailUseCaseOutput extends PartialClass {
-    email: string;
-    processedAt: Date;
+  email: string;
+  processedAt: Date;
 }

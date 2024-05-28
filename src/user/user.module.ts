@@ -1,6 +1,14 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './controller/user.controller';
-import { ActivationRequestRepositoryToken, CreateUserUseCaseToken, RoleRepositoryToken, SendUserActivationEmailUseCaseToken, UserLoginUseCaseToken, UserRepositoryToken, ValidateUserActivationEmailUseCaseToken } from './user.tokens';
+import {
+  ActivationRequestRepositoryToken,
+  CreateUserUseCaseToken,
+  RoleRepositoryToken,
+  SendUserActivationEmailUseCaseToken,
+  UserLoginUseCaseToken,
+  UserRepositoryToken,
+  ValidateUserActivationEmailUseCaseToken,
+} from './user.tokens';
 import CreateUserUseCase from './usecases/create.user.usecase';
 import UserRepository from 'src/external/repositories/user.repository';
 import { User } from 'src/domain/entities/user';
@@ -18,39 +26,38 @@ import UserLoginUseCase from './usecases/user.login.usecase';
 @Module({
   imports: [TypeOrmModule.forFeature([User, Role, ActivationRequest])],
   providers: [
-
     // UseCases
 
     {
       provide: CreateUserUseCaseToken,
-      useClass: CreateUserUseCase
+      useClass: CreateUserUseCase,
     },
     {
       provide: SendUserActivationEmailUseCaseToken,
-      useClass: SendUserActivationEmailUseCase
+      useClass: SendUserActivationEmailUseCase,
     },
     {
       provide: ValidateUserActivationEmailUseCaseToken,
-      useClass: ValidateUserActivationEmailUseCase
+      useClass: ValidateUserActivationEmailUseCase,
     },
     {
       provide: UserLoginUseCaseToken,
-      useClass: UserLoginUseCase
+      useClass: UserLoginUseCase,
     },
 
     // Repositories
 
     {
       provide: UserRepositoryToken,
-      useClass: UserRepository
+      useClass: UserRepository,
     },
     {
       provide: RoleRepositoryToken,
-      useClass: RoleRepository
+      useClass: RoleRepository,
     },
     {
       provide: ActivationRequestRepositoryToken,
-      useClass: ActivationRequestRepository
+      useClass: ActivationRequestRepository,
     },
 
     // Services
@@ -58,9 +65,8 @@ import UserLoginUseCase from './usecases/user.login.usecase';
     {
       provide: MailServiceToken,
       useClass: MailService,
-
-    }
+    },
   ],
   controllers: [UserController],
 })
-export class UserModule { }
+export class UserModule {}

@@ -1,21 +1,21 @@
-import { ApiProperty } from "@nestjs/swagger";
-import UserLoginUseCaseOutput from "../../usecases/dtos/user.login.usecase.output";
-import PartialClass from "../../../domain/base/partial.class";
+import { ApiProperty } from '@nestjs/swagger';
+import UserLoginUseCaseOutput from '../../usecases/dtos/user.login.usecase.output';
+import PartialClass from '../../../domain/base/partial.class';
 
 export default class UserLoginRequestOutput extends PartialClass {
   @ApiProperty({
-    description: 'User token'
+    description: 'User token',
   })
   token: string;
 
   @ApiProperty({
-    description: 'User token expiration date'
+    description: 'User token expiration date',
   })
-  expiration: Date
+  expiration: Date;
 
   static fromUseCaseResponse(data: UserLoginUseCaseOutput) {
     return new UserLoginRequestOutput({
-      ...data
-    })
+      ...data,
+    });
   }
 }

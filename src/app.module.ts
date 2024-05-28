@@ -11,8 +11,6 @@ import { Role } from './domain/entities/role';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import ErrorsInterceptor from './interceptors/error.interceptor';
 import { ActivationRequest } from './domain/entities/activation.request';
-import { MailServiceToken } from './app.tokens';
-import MailService from './external/services/mail.service';
 
 @Module({
   imports: [
@@ -37,11 +35,13 @@ import MailService from './external/services/mail.service';
     }),
   ],
   controllers: [],
-  providers: [{
-    provide: APP_INTERCEPTOR,
-    useClass: ErrorsInterceptor
-  }],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ErrorsInterceptor,
+    },
+  ],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) { }
+  constructor(private dataSource: DataSource) {}
 }

@@ -1,3 +1,3 @@
-import { Repository } from "typeorm";
+import { Repository } from 'typeorm';
 
-export interface IBaseRepository<T> extends Repository<T> { }
+export interface IBaseRepository<T> extends Repository<T> {}

@@ -1,10 +1,17 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Role } from "./role";
-import { ActivationRequest } from "./activation.request";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Role } from './role';
+import { ActivationRequest } from './activation.request';
 
 @Entity('user')
 export class User extends BaseEntity {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -26,13 +33,13 @@ export class User extends BaseEntity {
   @Column({ name: 'is_deleted', default: false })
   isDeleted: boolean;
 
-  @Column({ name: 'created_at', })
+  @Column({ name: 'created_at' })
   createdAt: Date;
 
   @Column({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToMany(type => Role, role => role.users)
+  @ManyToMany(() => Role, (role) => role.users)
   @JoinTable({
     name: 'user_role',
     joinColumn: {
@@ -42,10 +49,13 @@ export class User extends BaseEntity {
     inverseJoinColumn: {
       name: 'role_id',
       referencedColumnName: 'id',
-    }
+    },
   })
   roles: Role[];
 
-  @OneToMany(activationRequest => ActivationRequest, activationRequest => activationRequest.id)
+  @OneToMany(
+    () => ActivationRequest,
+    (activationRequest) => activationRequest.id,
+  )
   activationRequests: ActivationRequest[];
 }

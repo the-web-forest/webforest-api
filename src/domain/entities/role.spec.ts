@@ -1,9 +1,9 @@
-import { Role } from "./role";
+import { Role } from './role';
 
 describe('Role', () => {
-    let entity: Role = new Role();
+  const entity: Role = new Role();
 
-    it('should be defined', () => {
-        expect(entity).toBeDefined();
-    });
+  it('should be defined', () => {
+    expect(entity).toBeDefined();
+  });
 });
