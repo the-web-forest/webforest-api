@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './controller/user.controller';
-import { ActivationRequestRepositoryToken, CreateUserUseCaseToken, RoleRepositoryToken, SendUserActivationEmailUseCaseToken, UserRepositoryToken } from './user.tokens';
+import { ActivationRequestRepositoryToken, CreateUserUseCaseToken, RoleRepositoryToken, SendUserActivationEmailUseCaseToken, UserRepositoryToken, ValidateUserActivationEmailUseCaseToken } from './user.tokens';
 import CreateUserUseCase from './usecases/create.user.usecase';
 import UserRepository from 'src/external/repositories/user.repository';
 import { User } from 'src/domain/entities/user';
@@ -12,6 +12,7 @@ import { ActivationRequest } from 'src/domain/entities/activation.request';
 import ActivationRequestRepository from 'src/external/repositories/activation.request.repository';
 import { MailServiceToken } from 'src/app.tokens';
 import MailService from 'src/external/services/mail.service';
+import ValidateUserActivationEmailUseCase from './usecases/validate.user.activation.email.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Role, ActivationRequest])],
@@ -26,6 +27,10 @@ import MailService from 'src/external/services/mail.service';
     {
       provide: SendUserActivationEmailUseCaseToken,
       useClass: SendUserActivationEmailUseCase
+    },
+    {
+      provide: ValidateUserActivationEmailUseCaseToken,
+      useClass: ValidateUserActivationEmailUseCase
     },
 
     // Repositories

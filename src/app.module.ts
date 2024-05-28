@@ -7,7 +7,6 @@ import { CoreModule } from './core/core.module';
 import { DataSource } from 'typeorm';
 import { User } from './domain/entities/user';
 import { PasswordResetRequest } from './domain/entities/password.reset.request';
-import { UserRole } from './domain/entities/user.role';
 import { Role } from './domain/entities/role';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import ErrorsInterceptor from './interceptors/error.interceptor';
@@ -31,7 +30,7 @@ import MailService from './external/services/mail.service';
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_DATABASE'),
-        entities: [User, UserRole, Role, PasswordResetRequest, ActivationRequest],
+        entities: [User, Role, PasswordResetRequest, ActivationRequest],
         synchronize: false,
       }),
       inject: [ConfigService],
