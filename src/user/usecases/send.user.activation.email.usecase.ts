@@ -1,21 +1,20 @@
 import IUseCase from "src/domain/interfaces/usecase/IUseCase";
-import CreateUserUseCaseInput from "./dtos/create.user.usecase.input";
-import CreateUserUseCaseOutput from "./dtos/create.user.usecase.output";
 import { Inject, Logger } from "@nestjs/common";
-import { IUserRepository } from "src/domain/interfaces/repositories/user.repository.interface";
 import { ActivationRequestRepositoryToken, RoleRepositoryToken, UserRepositoryToken } from "../user.tokens";
 import { v4 as uuidv4 } from 'uuid';
-import { IRoleRepository } from "src/domain/interfaces/repositories/role.repository.interface";
-import { Role } from "src/domain/entities/role";
-import { RolesEnum } from "src/auth/enums/roles";
-import { User } from "src/domain/entities/user";
 import SendUserActivationEmailUseCaseOutput from "./dtos/send.user.activation.email.usecase.output";
 import SendUserActivationEmailUseCaseInput from "./dtos/send.user.activation.email.usecase.input";
-import UserNotFoundError from "src/core/error/user.not.found.error";
-import { IActivationRequestRepository } from "src/domain/interfaces/repositories/activation.request.repository.interface";
-import { ActivationRequest } from "src/domain/entities/activation.request";
-import { MailServiceToken } from "src/app.tokens";
-import IMailService from "src/domain/interfaces/services/mail.service.interface";
+import { MailServiceToken } from "../../app.tokens";
+import UserNotFoundError from "../../core/error/user.not.found.error";
+import { ActivationRequest } from "../../domain/entities/activation.request";
+import { IActivationRequestRepository } from "../../domain/interfaces/repositories/activation.request.repository.interface";
+import IMailService from "../../domain/interfaces/services/mail.service.interface";
+import { RolesEnum } from "../../auth/enums/roles";
+import { Role } from "../../domain/entities/role";
+import { User } from "../../domain/entities/user";
+import { IRoleRepository } from "../../domain/interfaces/repositories/role.repository.interface";
+import { IUserRepository } from "../../domain/interfaces/repositories/user.repository.interface";
+
 
 export default class SendUserActivationEmailUseCase implements IUseCase<SendUserActivationEmailUseCaseInput, SendUserActivationEmailUseCaseOutput> {
     private readonly logger = new Logger(SendUserActivationEmailUseCase.name);
@@ -35,7 +34,7 @@ export default class SendUserActivationEmailUseCase implements IUseCase<SendUser
 
     async run(input: SendUserActivationEmailUseCaseInput): Promise<SendUserActivationEmailUseCaseOutput> {
         this.logger.log('Starting SendUserActivationEmailUseCase')
-        const user = await this.userRepository.findOne({ where: { email: input.email }, relations: ['roles'] })
+        const user = await this.userRepository.findOne({ where: { email: input.email, isActive: true, isDeleted: false }, relations: ['roles'] })
 
         if (!user) {
             throw new UserNotFoundError()
@@ -58,7 +57,7 @@ export default class SendUserActivationEmailUseCase implements IUseCase<SendUser
         return await this.activationRequestRepository.save({
             user,
             hash: `${uuidv4()}-${uuidv4()}-${uuidv4()}`,
-            createdAt: new Date()
+            createdAt: new Date(),
         })
     }
 

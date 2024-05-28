@@ -15,7 +15,7 @@ export class ActivationRequest extends BaseEntity {
     @Column({ name: 'created_at', })
     createdAt: Date;
 
-    @Column({ name: 'activated_at' })
+    @Column({ name: 'activated_at', nullable: true })
     activatedAt: Date;
 
     @ManyToOne(user => User, user => user.id)

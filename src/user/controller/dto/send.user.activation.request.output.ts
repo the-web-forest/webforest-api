@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
-import PartialClass from "src/domain/base/partial.class";
+import PartialClass from "../../../domain/base/partial.class";
+import SendUserActivationEmailUseCaseOutput from "../../usecases/dtos/send.user.activation.email.usecase.output";
 
 export class SendUserActivationRequestOutput extends PartialClass {
   @ApiProperty({
@@ -13,7 +13,7 @@ export class SendUserActivationRequestOutput extends PartialClass {
   })
   processedAt: Date;
 
-  static fromUseCaseResponse(data: SendUserActivationRequestOutput) {
+  static fromUseCaseResponse(data: SendUserActivationEmailUseCaseOutput) {
     return new SendUserActivationRequestOutput({
       ...data
     })

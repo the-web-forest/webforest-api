@@ -1,15 +1,15 @@
-import IUseCase from "src/domain/interfaces/usecase/IUseCase";
 import CreateUserUseCaseInput from "./dtos/create.user.usecase.input";
 import CreateUserUseCaseOutput from "./dtos/create.user.usecase.output";
 import { Inject, Logger } from "@nestjs/common";
-import { IUserRepository } from "src/domain/interfaces/repositories/user.repository.interface";
 import { RoleRepositoryToken, UserRepositoryToken } from "../user.tokens";
 import * as argon2 from 'argon2';
-import UserAlreadyRegistered from "src/core/error/user.already.registered.error";
-import { IRoleRepository } from "src/domain/interfaces/repositories/role.repository.interface";
-import { Role } from "src/domain/entities/role";
-import { RolesEnum } from "src/auth/enums/roles";
-import { User } from "src/domain/entities/user";
+import { IRoleRepository } from "../../domain/interfaces/repositories/role.repository.interface";
+import { RolesEnum } from "../../auth/enums/roles";
+import UserAlreadyRegistered from "../../core/error/user.already.registered.error";
+import { Role } from "../../domain/entities/role";
+import { User } from "../../domain/entities/user";
+import { IUserRepository } from "../../domain/interfaces/repositories/user.repository.interface";
+import IUseCase from "../../domain/interfaces/usecase/IUseCase";
 
 export default class CreateUserUseCase implements IUseCase<CreateUserUseCaseInput, CreateUserUseCaseOutput> {
     private readonly logger = new Logger(CreateUserUseCase.name);
@@ -23,7 +23,7 @@ export default class CreateUserUseCase implements IUseCase<CreateUserUseCaseInpu
 
     async run(input: CreateUserUseCaseInput): Promise<CreateUserUseCaseOutput> {
 
-        const user = await this.userRepository.findOne({ where: { email: input.email } })
+        const user = await this.userRepository.findOne({ where: { email: input.email, isActive: true, isDeleted: false } })
 
         if (user) {
             throw new UserAlreadyRegistered()
@@ -38,7 +38,9 @@ export default class CreateUserUseCase implements IUseCase<CreateUserUseCaseInpu
         return await this.userRepository.save({
             ...input,
             password: await this.generatePassword(input.password),
-            roles: [await this.getTempUserRole()]
+            roles: [await this.getTempUserRole()],
+            createdAt: new Date(),
+            updatedAt: new Date()
         })
     }
 
