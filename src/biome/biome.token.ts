@@ -1,3 +1,5 @@
-export const BiomeRepositoryToken = Symbol('BiomeRepositoryToken')
+export const BiomeRepositoryToken = Symbol('BiomeRepositoryToken');
 
-export const NewBiomeUseCaseToken = Symbol('NewBiomeUseCaseToken')
+export const NewBiomeUseCaseToken = Symbol('NewBiomeUseCaseToken');
+
+export const UpdateBiomeUseCaseToken = Symbol('UpdateBiomeUseCaseToken');
