@@ -4,6 +4,7 @@ import { NewUserControllerInput } from './dto/new.user.controller.input';
 import {
   CreateUserUseCaseToken,
   SendUserActivationEmailUseCaseToken,
+  UpdateUserUseCaseToken,
   UserLoginUseCaseToken,
   ValidateUserActivationEmailUseCaseToken,
 } from '../user.tokens';
@@ -18,6 +19,8 @@ import UserLoginUseCaseOutput from '../usecases/dtos/user.login.usecase.output';
 import { faker } from '@faker-js/faker';
 import UserLoginRequestInput from './dto/user.login.request.input';
 import UserLoginRequestOutput from './dto/user.login.request.output';
+import UpdateUserUseCaseOutput from '../usecases/dtos/update.user.usecase.output';
+import UserUpdateRequestInput from './dto/user.update.request.input';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -49,6 +52,13 @@ describe('UserController', () => {
     expiration: faker.date.anytime(),
   });
 
+  const updateUserUseCaseResponse = new UpdateUserUseCaseOutput({
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    nickName: faker.internet.userName(),
+    updatedAt: faker.date.anytime(),
+  })
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
@@ -79,6 +89,12 @@ describe('UserController', () => {
           provide: UserLoginUseCaseToken,
           useValue: {
             run: jest.fn().mockReturnValue(userLoginUseCaseResponse),
+          },
+        },
+        {
+          provide: UpdateUserUseCaseToken,
+          useValue: {
+            run: jest.fn().mockReturnValue(updateUserUseCaseResponse),
           },
         },
       ],
@@ -134,4 +150,15 @@ describe('UserController', () => {
     expect(controllerResponse.token).toBe(userLoginUseCaseResponse.token);
     expect(controllerResponse).toBeInstanceOf(UserLoginRequestOutput);
   });
+
+  it('should call usecase.run on updateUserProfile', async () => {
+    const input = new UserUpdateRequestInput();
+    const request = { user: { id: faker.number.int } } as any
+    const controllerResponse = await controller.updateUserProfile(input, request);
+   
+    expect(controllerResponse.firstName).toBe(updateUserUseCaseResponse.firstName);
+    expect(controllerResponse.lastName).toBe(updateUserUseCaseResponse.lastName);
+    expect(controllerResponse.nickName).toBe(updateUserUseCaseResponse.nickName);
+  });
+
 });

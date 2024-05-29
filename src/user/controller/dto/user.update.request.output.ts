@@ -28,9 +28,9 @@ export default class UserUpdateRequestOutput extends PartialClass {
   @IsOptional()
   @IsString()
   @ApiProperty({
-    description: 'User password',
+    description: 'User nickName',
   })
-  password?: string;
+  updatedAt?: Date;
 
   static fromUseCaseResponse(response: UpdateUserUseCaseOutput) {
     return new UserUpdateRequestOutput({

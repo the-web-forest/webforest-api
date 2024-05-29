@@ -6,6 +6,7 @@ export default class UserUpdateRequestInput {
   @IsString()
   @ApiProperty({
     description: 'User firstName',
+    required: false
   })
   firstName?: string;
 
@@ -13,6 +14,7 @@ export default class UserUpdateRequestInput {
   @IsString()
   @ApiProperty({
     description: 'User lastName',
+    required: false
   })
   lastName?: string;
 
@@ -20,6 +22,7 @@ export default class UserUpdateRequestInput {
   @IsString()
   @ApiProperty({
     description: 'User nickName',
+    required: false
   })
   nickName?: string;
 
@@ -27,6 +30,7 @@ export default class UserUpdateRequestInput {
   @IsString()
   @ApiProperty({
     description: 'User password',
+    required: false
   })
   password?: string;
 }

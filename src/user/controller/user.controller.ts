@@ -152,6 +152,7 @@ export class UserController {
 
   @Patch()
   @ApiOperation({ summary: 'User Self Update' })
+  @ApiResponse({ status: HttpStatus.OK, type: UserUpdateRequestOutput })
   async updateUserProfile(@Body() input: UserUpdateRequestInput, @Req() request: { user: User }): Promise<UserUpdateRequestOutput> {
     this.logger.log(`User ${request.user.email} is self updating with this data`, { ...input })
     const useCaseInput = new UpdateUserUseCaseInput({

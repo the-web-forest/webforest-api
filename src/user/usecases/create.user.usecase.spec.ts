@@ -141,7 +141,7 @@ describe('Create User Use Case', () => {
     const input = new CreateUserUseCaseInput(user1);
     await usecase.run(input);
 
-    expect(async () => {
+    await expect(async () => {
       await usecase.run(input);
     }).rejects.toThrow(
       '{"message":"User Already Registered","code":"WF-0001"}',

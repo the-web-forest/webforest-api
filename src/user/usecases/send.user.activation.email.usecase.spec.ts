@@ -80,7 +80,7 @@ describe('Send User Activation Email Use Case', () => {
       email: 'naovai@achar.com',
     });
 
-    expect(async () => {
+    await expect(async () => {
       await usecase.run(input);
     }).rejects.toThrow('{"message":"User Not Found","code":"WF-0002"}');
   });
@@ -111,7 +111,7 @@ describe('Send User Activation Email Use Case', () => {
 
     const input = new SendUserActivationEmailUseCaseInput({ email: testMail });
 
-    expect(async () => {
+    await expect(async () => {
       await usecase.run(input);
     }).rejects.toThrow('{"message":"User Not Found","code":"WF-0002"}');
   });

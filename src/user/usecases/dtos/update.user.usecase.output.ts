@@ -2,7 +2,6 @@ import PartialClass from '../../../domain/base/partial.class';
 import { User } from '../../../domain/entities/user';
 
 export default class UpdateUserUseCaseOutput extends PartialClass {
-  id: number;
   firstName: string;
   lastName: string;
   nickName: string;

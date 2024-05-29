@@ -136,7 +136,7 @@ describe('Validate User Activation Email Use Case', () => {
       hash: 'hash#teste',
     });
 
-    expect(async () => {
+    await expect(async () => {
       await usecase.run(input);
     }).rejects.toThrow('{"message":"User Not Found","code":"WF-0002"}');
   });
@@ -163,7 +163,7 @@ describe('Validate User Activation Email Use Case', () => {
 
     await usecase.run(input);
 
-    expect(async () => {
+    await expect(async () => {
       await usecase.run(input);
     }).rejects.toThrow('{"message":"User Not Found","code":"WF-0002"}');
   });

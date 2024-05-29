@@ -3,7 +3,7 @@ import { IUserRepository } from '../../domain/interfaces/repositories/user.repos
 
 export default class UserSeedTestHelper {
   static async seed(userRepository: IUserRepository) {
-    for (let index = 0; index < 100; index++) {
+    for (let index = 0; index < 10; index++) {
       const firstName = faker.person.firstName();
       const lastName = faker.person.lastName();
       await userRepository.save({
@@ -17,7 +17,6 @@ export default class UserSeedTestHelper {
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-
     }
 
   }

@@ -82,7 +82,7 @@ describe('User Login Use Case', () => {
       password: user.password,
     });
 
-    expect(async () => {
+    await expect(async () => {
       await usecase.run(input);
     }).rejects.toThrow('{"message":"User Not Activated","code":"WF-0003"}');
   });
@@ -156,7 +156,7 @@ describe('User Login Use Case', () => {
       password: user.password,
     });
 
-    expect(async () => {
+    await expect(async () => {
       await usecase.run(input);
     }).rejects.toThrow('{"message":"User Not Found","code":"WF-0002"}');
   });
@@ -178,7 +178,7 @@ describe('User Login Use Case', () => {
       password: faker.internet.password(),
     });
 
-    expect(async () => {
+    await expect(async () => {
       await usecase.run(input);
     }).rejects.toThrow('{"message":"User Not Found","code":"WF-0002"}');
   });

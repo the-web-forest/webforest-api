@@ -15,7 +15,8 @@ export default class UserLoginRequestOutput extends PartialClass {
 
   static fromUseCaseResponse(data: UserLoginUseCaseOutput) {
     return new UserLoginRequestOutput({
-      ...data,
+      token: data.token,
+      expiration: data.expiration
     });
   }
 }
