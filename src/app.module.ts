@@ -11,6 +11,7 @@ import { Role } from './domain/entities/role';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import ErrorsInterceptor from './interceptors/error.interceptor';
 import { ActivationRequest } from './domain/entities/activation.request';
+import { VolunteerModule } from './volunteer/volunteer.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ActivationRequest } from './domain/entities/activation.request';
       }),
       inject: [ConfigService],
     }),
+    VolunteerModule,
   ],
   controllers: [],
   providers: [
