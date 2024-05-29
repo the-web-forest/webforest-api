@@ -8,7 +8,7 @@ export class Biome extends BaseEntity {
     @Column({ name: 'name', nullable: false })
     name: string;
 
-    @Column({ name: 'created_At', nullable: false })
+    @Column({ name: 'created_at', nullable: false })
     createdAt: Date;
 
     @Column({ name: 'updated_at', nullable: true })

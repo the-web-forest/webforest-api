@@ -12,6 +12,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import ErrorsInterceptor from './interceptors/error.interceptor';
 import { ActivationRequest } from './domain/entities/activation.request';
 import { BiomeModule } from './biome/biome.module';
+import { Biome } from './domain/entities/biome';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { BiomeModule } from './biome/biome.module';
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_DATABASE'),
-        entities: [User, Role, PasswordResetRequest, ActivationRequest],
+        entities: [User, Role, PasswordResetRequest, ActivationRequest, Biome],
         synchronize: false,
       }),
       inject: [ConfigService],
