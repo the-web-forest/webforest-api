@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import PartialClass from '../../../domain/base/partial.class';
 import CreateUserUseCaseOutput from '../../../user/usecases/dtos/create.user.usecase.output';
-import { first } from 'rxjs';
+import PartialClass from '../../../domain/base/partial.class';
 
 export default class NewUserControllerOutput extends PartialClass {
   @ApiProperty({

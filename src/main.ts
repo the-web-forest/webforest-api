@@ -5,7 +5,7 @@ import {
   SwaggerDocumentOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { BadRequestException, ValidationError, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,11 +13,13 @@ async function bootstrap() {
   app.enableCors({
     origin: true,
   });
+  
   const config = new DocumentBuilder()
     .setTitle('Web Forest API')
     .setDescription('The Web Forest API description')
     .setVersion('1.0')
     .build();
+
   const options: SwaggerDocumentOptions = {
     deepScanRoutes: true,
   };

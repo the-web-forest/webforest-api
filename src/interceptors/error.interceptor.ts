@@ -2,6 +2,7 @@ import {
   BadRequestException,
   CallHandler,
   ExecutionContext,
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -27,7 +28,7 @@ export default class ErrorsInterceptor implements NestInterceptor {
           return throwError(() => new BadRequestException(errorPayload));
         } catch (error) {
           this.logger.error(error);
-          return throwError(() => new InternalServerErrorException());
+          return throwError(() => err);
         }
       }),
     );
