@@ -14,6 +14,8 @@ import { ActivationRequest } from './domain/entities/activation.request';
 import { VolunteerModule } from './volunteer/volunteer.module';
 import { BiomeModule } from './biome/biome.module';
 import { Biome } from './domain/entities/biome';
+import { NewsModule } from './news/news.module';
+import { News } from './domain/entities/news';
 
 @Module({
   imports: [
@@ -33,11 +35,12 @@ import { Biome } from './domain/entities/biome';
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_DATABASE'),
-        entities: [User, Role, PasswordResetRequest, ActivationRequest, Biome],
+        entities: [User, Role, PasswordResetRequest, ActivationRequest, Biome, News],
         synchronize: false,
       }),
       inject: [ConfigService],
     }),
+    NewsModule,
   ],
   controllers: [],
   providers: [
