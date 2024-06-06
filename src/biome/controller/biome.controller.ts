@@ -6,9 +6,11 @@ import { NewBiomeUseCaseToken } from '../biome.token';
 import IUseCase from '../../domain/interfaces/usecase/IUseCase';
 import NewBiomeUseCaseInput from '../usecases/dtos/new.biome.usecase.input';
 import NewBiomeUseCaseOutput from '../usecases/dtos/new.biome.usecase.output';
+import { ApiTags } from '@nestjs/swagger';
 
 
 @Controller('biome')
+@ApiTags('Biome')
 export class BiomeController {
 
     constructor(
