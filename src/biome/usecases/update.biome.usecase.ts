@@ -18,13 +18,14 @@ export default class UpdateBiomeUseCase
     ) { }
 
     async run(input: UpdateBiomeUseCaseInput): Promise<UpdateBiomeUseCaseOutput> {
-        const biome = await this.biomeRepository.findOne({});
+        this.logger.log('Starting')
+
+        const biome = await this.biomeRepository.findOne({ where: { id: input.id}});
 
         if (!biome) {
             throw new BiomeNotFoundError();
         }
-        const newBiome = await this.update(input, biome);
-        return UpdateBiomeUseCaseOutput.fromBiome(newBiome);
+        return await this.update(input, biome);
     }
 
     private async update(input: UpdateBiomeUseCaseInput, biome: Biome): Promise<Biome> {
