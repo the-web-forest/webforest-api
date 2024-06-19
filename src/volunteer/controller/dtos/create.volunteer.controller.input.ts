@@ -23,7 +23,7 @@ export default class CreateVolunteerControllerInput {
     @IsOptional()
     @IsUrl()
     @ApiProperty({
-        description: 'LinkedIn photo url'
+        description: 'LinkedIn url'
     })
     linkedInUrl: string;
 

@@ -7,7 +7,7 @@
 	npx typeorm-ts-node-esm migration:run -d ./data-source.ts
 
 # Errors
-|Code|Description  |
+|Code|Description|
 |--|--|
 |WF-0001 |User Already Registered|
 |WF-0002 |User Not Found|
