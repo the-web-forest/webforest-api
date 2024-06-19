@@ -16,7 +16,7 @@ import NewBiomeUseCase from './usecases/new.biome.usecase';
     {
       provide: NewBiomeUseCaseToken,
       useClass: NewBiomeUseCase,
-    },
+    }
   ],
   controllers: [BiomeController]
 })

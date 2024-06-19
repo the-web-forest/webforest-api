@@ -13,14 +13,14 @@ export class BiomeController {
 
     constructor(
         @Inject(NewBiomeUseCaseToken)
-        private readonly newBiomeUseCase:IUseCase<NewBiomeUseCaseInput, NewBiomeUseCaseOutput>
-    ){}
-    
+        private readonly newBiomeUseCase: IUseCase<NewBiomeUseCaseInput, NewBiomeUseCaseOutput>,
+    ) { }
+
     @Post()
     @Roles(RolesEnum.Admin)
-    async createBiome(@Body() input: NewBiomeControllerInput){
+    async createBiome(@Body() input: NewBiomeControllerInput) {
         const useCaseInput = new NewBiomeUseCaseInput({
-            name: input.name
+            ...input
         })
         return await this.newBiomeUseCase.run(useCaseInput)
     }

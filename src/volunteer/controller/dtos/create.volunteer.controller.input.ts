@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, IsUrl } from "class-validator";
 
 export default class CreateVolunteerControllerInput {
     @IsString()
@@ -12,9 +12,27 @@ export default class CreateVolunteerControllerInput {
 
     @IsString()
     @IsNotEmpty()
-    @IsOptional()
     @ApiProperty({
-        description: 'Name of the new volunteer'
+        description: 'Role of the new volunteer',
+        
+    })
+    role: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @IsOptional()
+    @IsUrl()
+    @ApiProperty({
+        description: 'LinkedIn photo url'
     })
     linkedInUrl: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @IsOptional()
+    @IsUrl()
+    @ApiProperty({
+        description: 'Volunteer photo url'
+    })
+    photoUrl: string;
 }

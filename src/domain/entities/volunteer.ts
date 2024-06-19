@@ -19,6 +19,9 @@ export class Volunteer extends BaseEntity {
   @Column({ name: 'name', nullable: false })
   name: string;
 
+  @Column({ name: 'role', nullable: false })
+  role: string;
+
   @Column({ name: 'linkedin_url', nullable: true })
   linkedInUrl: string;
 

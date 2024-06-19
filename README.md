@@ -14,3 +14,4 @@
 |WF-0003 |User Not Activated|
 |WF-0004 |NickName Already Registered|
 |WF-0005 |Biome Already Registered|
+|WF-0006 |Volunteer Already Registered|
