@@ -8,7 +8,7 @@ import IUseCase from '../domain/interfaces/usecase/IUseCase';
 import CreateNewsUseCaseOutput from './usecases/dtos/create.news.usecase.output';
 
 @Controller('news')
-@ApiTags('news')
+@ApiTags('News')
 export class NewsController {
 
     constructor(
