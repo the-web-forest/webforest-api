@@ -1,6 +1,6 @@
 import PartialClass from "../../../domain/base/partial.class"
 
-export default class CreateNewsUseCaseInpu extends PartialClass {
+export default class CreateNewsUseCaseInput extends PartialClass {
     title: string
     url: string
     imageUrl: string

@@ -156,10 +156,7 @@ export class UserController {
   async updateUserProfile(@Body() input: UserUpdateRequestInput, @Req() request: { user: User }): Promise<UserUpdateRequestOutput> {
     this.logger.log(`User ${request.user.email} is self updating with this data`, { ...input })
     const useCaseInput = new UpdateUserUseCaseInput({
-      firstName: input.firstName,
-      lastName: input.lastName,
-      password: input.password,
-      nickName: input.nickName,
+      ...input,
       id: request.user.id
     });
     const response = await this.updateUserUseCase.run(useCaseInput);

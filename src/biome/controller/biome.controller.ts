@@ -31,7 +31,7 @@ export class BiomeController {
     @Roles(RolesEnum.Admin)
     async createBiome(@Body() input: NewBiomeControllerInput) {
         const useCaseInput = new NewBiomeUseCaseInput({
-            name: input.name
+            ...input
         })
         return await this.newBiomeUseCase.run(useCaseInput)
     }

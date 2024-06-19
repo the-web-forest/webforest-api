@@ -16,6 +16,7 @@ import { BiomeModule } from './biome/biome.module';
 import { Biome } from './domain/entities/biome';
 import { NewsModule } from './news/news.module';
 import { News } from './domain/entities/news';
+import { Volunteer } from './domain/entities/volunteer';
 
 @Module({
   imports: [
@@ -35,7 +36,7 @@ import { News } from './domain/entities/news';
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_DATABASE'),
-        entities: [User, Role, PasswordResetRequest, ActivationRequest, Biome, News],
+        entities: [User, Role, PasswordResetRequest, ActivationRequest, Biome, News, Volunteer],
         synchronize: false,
       }),
       inject: [ConfigService],

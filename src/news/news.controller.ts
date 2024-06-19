@@ -1,5 +1,5 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, HttpStatus, Inject, Post } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import CreateNewsControllerInput from './dtos/create.news.controller.input';
 import CreateNewsControllerOutput from './dtos/create.news.controller.output';
 import { CreateNewsUseCaseToken, NewsRepositoryToken } from './news.tokens';
@@ -17,6 +17,8 @@ export class NewsController {
     ){}
 
     @Post()
+    @ApiOperation({ summary: 'Create News' })
+    @ApiResponse({ status: HttpStatus.OK, type: CreateNewsControllerOutput })
     async createNews(@Body() input: CreateNewsControllerInput): Promise<CreateNewsControllerOutput> {
         const useCaseInput = new CreateNewsUseCaseInput({...input})
         return await this.createNewsUseCase.run(useCaseInput)

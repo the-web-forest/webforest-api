@@ -10,7 +10,7 @@ export default class NewBiomeUseCase implements IUseCase<NewBiomeUseCaseInput, N
    
     constructor(
         @Inject(BiomeRepositoryToken)
-        private readonly biomeRepository: IBiomeRepository
+        private readonly biomeRepository: IBiomeRepository,
     ){}
 
     async run(input: NewBiomeUseCaseInput): Promise<NewBiomeUseCaseOutput> {
