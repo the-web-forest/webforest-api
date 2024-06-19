@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Inject, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpStatus, Inject, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { RolesEnum } from '../../auth/enums/roles';
 import { Roles } from '../../auth/decorators/role.decorator';
 import NewBiomeControllerInput from './dto/new.biome.controller.input';
@@ -11,9 +11,11 @@ import UpdateBiomeUseCaseInput from '../usecases/dtos/update.biome.usecase.input
 import UpdateBiomeUseCaseOutput from '../usecases/dtos/update.biome.usecase.output';
 import GetBiomeByIdUseCaseOutput from '../usecases/dtos/get.biome.by.id.usecase.output';
 import GetBiomeByIdUseCaseInput from '../usecases/dtos/get.biome.by.id.usecase.input';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 
 @Controller('biome')
+@ApiTags('Biome')
 export class BiomeController {
 
     constructor(
@@ -29,7 +31,9 @@ export class BiomeController {
 
     @Post()
     @Roles(RolesEnum.Admin)
-    async createBiome(@Body() input: NewBiomeControllerInput) {
+    @ApiOperation({ summary: 'Create new Biome' })
+    @ApiResponse({ status: HttpStatus.OK, type: NewBiomeUseCaseOutput })
+    async createBiome(@Body() input: NewBiomeControllerInput): Promise<NewBiomeUseCaseOutput> {
         const useCaseInput = new NewBiomeUseCaseInput({
             ...input
         })
@@ -37,7 +41,10 @@ export class BiomeController {
     }
 
     @Put(':id')
-    async updateBiome(@Body() input: BiomeUpdateRequestInput, @Param('id', ParseIntPipe) id: number) {
+    @Roles(RolesEnum.Admin)
+    @ApiOperation({ summary: 'Update Biome By Id' })
+    @ApiResponse({ status: HttpStatus.OK, type: NewBiomeUseCaseOutput })
+    async updateBiome(@Body() input: BiomeUpdateRequestInput, @Param('id', ParseIntPipe) id: number): Promise<UpdateBiomeUseCaseOutput> {
         const useCaseInput = new UpdateBiomeUseCaseInput({
             id,
             name: input.name
@@ -45,6 +52,9 @@ export class BiomeController {
         return await this.updateBiomeUseCase.run(useCaseInput)
     }
     @Get(':id')
+    @Roles(RolesEnum.Admin)
+    @ApiOperation({ summary: 'Get Biome By Id' })
+    @ApiResponse({ status: HttpStatus.OK, type: GetBiomeByIdUseCaseOutput })
     async getBiomeById(@Param('id', ParseIntPipe) id: number): Promise<GetBiomeByIdUseCaseOutput> {
         const useCaseInput = new GetBiomeByIdUseCaseInput({
             id
