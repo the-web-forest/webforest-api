@@ -7,7 +7,6 @@ import IUseCase from '../../domain/interfaces/usecase/IUseCase';
 import NewBiomeUseCaseInput from '../usecases/dtos/new.biome.usecase.input';
 import NewBiomeUseCaseOutput from '../usecases/dtos/new.biome.usecase.output';
 import BiomeUpdateRequestInput from './dto/biome.update.request.input';
-import UpdateBiomeUseCase from '../usecases/update.biome.usecase';
 import UpdateBiomeUseCaseInput from '../usecases/dtos/update.biome.usecase.input';
 import UpdateBiomeUseCaseOutput from '../usecases/dtos/update.biome.usecase.output';
 import GetBiomeByIdUseCaseOutput from '../usecases/dtos/get.biome.by.id.usecase.output';

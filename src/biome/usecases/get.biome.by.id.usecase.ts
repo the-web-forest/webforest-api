@@ -4,7 +4,7 @@ import GetBiomeByIdUseCaseInput from "./dtos/get.biome.by.id.usecase.input";
 import GetBiomeByIdUseCaseOutput from "./dtos/get.biome.by.id.usecase.output";
 import { IBiomeRepository } from "../../domain/interfaces/repositories/biome.repository.interface";
 import BiomeNotFoundError from "../../core/error/biome.not.found.error";
-import { BiomeRepositoryToken, GetBiomeByIdUseCaseToken } from "../biome.token";
+import { BiomeRepositoryToken } from "../biome.token";
 
 @Injectable()
 export default class GetBiomeByIdUseCase implements IUseCase<GetBiomeByIdUseCaseInput, GetBiomeByIdUseCaseOutput> {
