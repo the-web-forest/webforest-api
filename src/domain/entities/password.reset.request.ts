@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('password_reset_request')
-export class PasswordResetRequest extends BaseEntity{
+export class PasswordResetRequest extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
   @Column({ name: 'user_id' })

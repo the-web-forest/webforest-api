@@ -20,7 +20,6 @@ import { IRoleRepository } from '../../domain/interfaces/repositories/role.repos
 import { IUserRepository } from '../../domain/interfaces/repositories/user.repository.interface';
 import { RolesEnum } from '../../auth/enums/roles';
 import { IActivationRequestRepository } from '../../domain/interfaces/repositories/activation.request.repository.interface';
-import { IsNull, Not } from 'typeorm';
 
 describe('Send User Activation Email Use Case', () => {
   let usecase: IUseCase<

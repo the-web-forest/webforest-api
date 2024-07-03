@@ -12,7 +12,8 @@ import { IUserRepository } from '../../domain/interfaces/repositories/user.repos
 import IUseCase from '../../domain/interfaces/usecase/IUseCase';
 
 export default class CreateUserUseCase
-  implements IUseCase<CreateUserUseCaseInput, CreateUserUseCaseOutput> {
+  implements IUseCase<CreateUserUseCaseInput, CreateUserUseCaseOutput>
+{
   private readonly logger = new Logger(CreateUserUseCase.name);
   constructor(
     @Inject(UserRepositoryToken)
@@ -20,7 +21,7 @@ export default class CreateUserUseCase
 
     @Inject(RoleRepositoryToken)
     private readonly roleRepository: IRoleRepository,
-  ) { }
+  ) {}
 
   async run(input: CreateUserUseCaseInput): Promise<CreateUserUseCaseOutput> {
     const user = await this.userRepository.findOne({
@@ -38,7 +39,10 @@ export default class CreateUserUseCase
   private async saveUser(input: CreateUserUseCaseInput): Promise<User> {
     return await this.userRepository.save({
       ...input,
-      nickName: await this.generateAValidNickName(input.firstName, input.lastName),
+      nickName: await this.generateAValidNickName(
+        input.firstName,
+        input.lastName,
+      ),
       password: await this.generatePassword(input.password),
       roles: [await this.getTempUserRole()],
       createdAt: new Date(),
@@ -84,7 +88,6 @@ export default class CreateUserUseCase
 
     return nickname;
   }
-
 
   private async getTempUserRole(): Promise<Role> {
     return await this.roleRepository.findOne({

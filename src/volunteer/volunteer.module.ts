@@ -1,6 +1,11 @@
 import { Module } from '@nestjs/common';
 import { VolunteerController } from './controller/volunteer.controller';
-import { CreateVolunteerUseCaseToken, GetVolunteerByIdUseCaseToken, UpdateVolunteerUseCaseToken, VolunteerRepositoryToken } from './volunteer.tokens';
+import {
+  CreateVolunteerUseCaseToken,
+  GetVolunteerByIdUseCaseToken,
+  UpdateVolunteerUseCaseToken,
+  VolunteerRepositoryToken,
+} from './volunteer.tokens';
 import CreateVolunteerUseCase from './usecases/create.volunteer.usecase';
 import VolunteerRepository from '../external/repositories/volunteer.repository';
 import { Volunteer } from '../domain/entities/volunteer';
@@ -13,21 +18,21 @@ import GetVolunteerByIdUseCase from './usecases/get.volunteer.by.id.usecase';
   providers: [
     {
       provide: CreateVolunteerUseCaseToken,
-      useClass: CreateVolunteerUseCase
+      useClass: CreateVolunteerUseCase,
     },
     {
       provide: UpdateVolunteerUseCaseToken,
-      useClass: UpdateVolunteerUseCase
+      useClass: UpdateVolunteerUseCase,
     },
     {
       provide: VolunteerRepositoryToken,
-      useClass: VolunteerRepository
+      useClass: VolunteerRepository,
     },
     {
       provide: GetVolunteerByIdUseCaseToken,
       useClass: GetVolunteerByIdUseCase,
-    }
+    },
   ],
-  controllers: [VolunteerController]
+  controllers: [VolunteerController],
 })
-export class VolunteerModule { }
+export class VolunteerModule {}

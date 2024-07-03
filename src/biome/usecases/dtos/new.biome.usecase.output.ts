@@ -1,4 +1,3 @@
-import { Biome } from "../../../domain/entities/biome";
+import { Biome } from '../../../domain/entities/biome';
 
-export default class NewBiomeUseCaseOutput extends Biome {
-}
+export default class NewBiomeUseCaseOutput extends Biome {}

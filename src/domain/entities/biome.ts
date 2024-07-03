@@ -1,16 +1,16 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('biome')
 export class Biome extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ name: 'name', nullable: false })
-    name: string;
+  @Column({ name: 'name', nullable: false })
+  name: string;
 
-    @Column({ name: 'created_at', nullable: false })
-    createdAt: Date;
+  @Column({ name: 'created_at', nullable: false })
+  createdAt: Date;
 
-    @Column({ name: 'updated_at', nullable: true })
-    updatedAt: Date;
+  @Column({ name: 'updated_at', nullable: true })
+  updatedAt: Date;
 }

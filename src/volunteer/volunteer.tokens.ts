@@ -4,8 +4,9 @@ export const CreateVolunteerUseCaseToken = Symbol('CreateUserUseCaseToken');
 
 export const UpdateVolunteerUseCaseToken = Symbol('UpdateUserUseCaseToken');
 
-export const GetVolunteerByIdUseCaseToken = Symbol('GetVolunteerByIdUseCaseToken');
-
+export const GetVolunteerByIdUseCaseToken = Symbol(
+  'GetVolunteerByIdUseCaseToken',
+);
 
 // Repositories
 

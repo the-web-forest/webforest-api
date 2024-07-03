@@ -11,12 +11,13 @@ import { Not } from 'typeorm';
 import NickNameAlreadyRegisteredError from '../../core/error/nickname.already.registered.error';
 
 export default class UpdateUserUseCase
-  implements IUseCase<UpdateUserUseCaseInput, UpdateUserUseCaseOutput> {
+  implements IUseCase<UpdateUserUseCaseInput, UpdateUserUseCaseOutput>
+{
   private readonly logger = new Logger(UpdateUserUseCase.name);
   constructor(
     @Inject(UserRepositoryToken)
     private readonly userRepository: IUserRepository,
-  ) { }
+  ) {}
 
   async run(input: UpdateUserUseCaseInput): Promise<UpdateUserUseCaseOutput> {
     const user = await this.userRepository.findOne({
@@ -31,29 +32,34 @@ export default class UpdateUserUseCase
     return UpdateUserUseCaseOutput.fromUser(newUser);
   }
 
-  private async update(input: UpdateUserUseCaseInput, user: User): Promise<User> {
-
+  private async update(
+    input: UpdateUserUseCaseInput,
+    user: User,
+  ): Promise<User> {
     Object.assign(user, input);
 
     if (input.password) {
-      this.logger.log('Updating user password')
-      user.password = await this.generatePassword(input.password)
+      this.logger.log('Updating user password');
+      user.password = await this.generatePassword(input.password);
     }
 
     if (input.nickName) {
-      this.logger.log('Checking if nickName is already registered')
-      const nickNameIsAlreadyRegistered = await this.userRepository.findOne({ where: { nickName: input.nickName, id: Not(user.id) } })
+      this.logger.log('Checking if nickName is already registered');
+      const nickNameIsAlreadyRegistered = await this.userRepository.findOne({
+        where: { nickName: input.nickName, id: Not(user.id) },
+      });
 
       if (nickNameIsAlreadyRegistered) {
-        this.logger.warn(`Nickname ${nickNameIsAlreadyRegistered.nickName} is already registered`)
-        throw new NickNameAlreadyRegisteredError()
+        this.logger.warn(
+          `Nickname ${nickNameIsAlreadyRegistered.nickName} is already registered`,
+        );
+        throw new NickNameAlreadyRegisteredError();
       }
 
-      this.logger.log(`Nickname ${input.nickName} is free to use`)
-
+      this.logger.log(`Nickname ${input.nickName} is free to use`);
     }
 
-    user.updatedAt = new Date()
+    user.updatedAt = new Date();
 
     return await user.save();
   }

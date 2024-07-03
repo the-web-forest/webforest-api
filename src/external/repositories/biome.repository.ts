@@ -1,19 +1,19 @@
-import { Injectable } from "@nestjs/common";
-import { IBiomeRepository } from "../../domain/interfaces/repositories/biome.repository.interface";
-import { Biome } from "../../domain/entities/biome";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import BaseRepository from "./base.repository";
+import { Injectable } from '@nestjs/common';
+import { IBiomeRepository } from '../../domain/interfaces/repositories/biome.repository.interface';
+import { Biome } from '../../domain/entities/biome';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import BaseRepository from './base.repository';
 
 @Injectable()
 export default class BiomeRepository
-    extends BaseRepository<Biome>
-    implements IBiomeRepository
+  extends BaseRepository<Biome>
+  implements IBiomeRepository
 {
- constructor(
+  constructor(
     @InjectRepository(Biome)
     private readonly biomeRepository: Repository<Biome>,
- )  {
+  ) {
     super(biomeRepository);
- }
+  }
 }

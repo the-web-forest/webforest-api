@@ -1,14 +1,4 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Role } from './role';
-import { ActivationRequest } from './activation.request';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('volunteer')
 export class Volunteer extends BaseEntity {
@@ -28,6 +18,11 @@ export class Volunteer extends BaseEntity {
   @Column({ name: 'photo_url', nullable: true })
   photoUrl: string;
 
-  @Column({ name: 'is_deleted', nullable: false, default: false, select: false })
+  @Column({
+    name: 'is_deleted',
+    nullable: false,
+    default: false,
+    select: false,
+  })
   isDeleted: boolean;
 }

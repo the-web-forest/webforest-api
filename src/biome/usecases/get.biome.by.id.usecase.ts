@@ -1,30 +1,35 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
-import IUseCase from "../../domain/interfaces/usecase/IUseCase";
-import GetBiomeByIdUseCaseInput from "./dtos/get.biome.by.id.usecase.input";
-import GetBiomeByIdUseCaseOutput from "./dtos/get.biome.by.id.usecase.output";
-import { IBiomeRepository } from "../../domain/interfaces/repositories/biome.repository.interface";
-import BiomeNotFoundError from "../../core/error/biome.not.found.error";
-import { BiomeRepositoryToken } from "../biome.token";
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import IUseCase from '../../domain/interfaces/usecase/IUseCase';
+import GetBiomeByIdUseCaseInput from './dtos/get.biome.by.id.usecase.input';
+import GetBiomeByIdUseCaseOutput from './dtos/get.biome.by.id.usecase.output';
+import { IBiomeRepository } from '../../domain/interfaces/repositories/biome.repository.interface';
+import BiomeNotFoundError from '../../core/error/biome.not.found.error';
+import { BiomeRepositoryToken } from '../biome.token';
 
 @Injectable()
-export default class GetBiomeByIdUseCase implements IUseCase<GetBiomeByIdUseCaseInput, GetBiomeByIdUseCaseOutput> {
-    private readonly logger = new Logger(GetBiomeByIdUseCase.name);
-    
-    constructor(
-        @Inject(BiomeRepositoryToken)
-        private readonly biomeRepository: IBiomeRepository,
-    ) {}
+export default class GetBiomeByIdUseCase
+  implements IUseCase<GetBiomeByIdUseCaseInput, GetBiomeByIdUseCaseOutput>
+{
+  private readonly logger = new Logger(GetBiomeByIdUseCase.name);
 
-    async run(input: GetBiomeByIdUseCaseInput): Promise<GetBiomeByIdUseCaseOutput> {
-        this.logger.log('Starting')
+  constructor(
+    @Inject(BiomeRepositoryToken)
+    private readonly biomeRepository: IBiomeRepository,
+  ) {}
 
-        const biome = await this.biomeRepository.findOne({ where: { id: input.id } });
+  async run(
+    input: GetBiomeByIdUseCaseInput,
+  ): Promise<GetBiomeByIdUseCaseOutput> {
+    this.logger.log('Starting');
 
-        if (!biome) {
-            throw new BiomeNotFoundError();
-        };
+    const biome = await this.biomeRepository.findOne({
+      where: { id: input.id },
+    });
 
-        return biome
-
+    if (!biome) {
+      throw new BiomeNotFoundError();
     }
-} 
+
+    return biome;
+  }
+}

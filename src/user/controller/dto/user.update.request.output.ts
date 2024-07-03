@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import UpdateUserUseCaseOutput from '../../usecases/dtos/update.user.usecase.output';
 import PartialClass from '../../../domain/base/partial.class';
 
@@ -34,7 +34,7 @@ export default class UserUpdateRequestOutput extends PartialClass {
 
   static fromUseCaseResponse(response: UpdateUserUseCaseOutput) {
     return new UserUpdateRequestOutput({
-      ...response
-    })
+      ...response,
+    });
   }
 }
