@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'publya-api',
+      name: 'webforest-api',
       namespace: 'web-forest',
       watch: true,
       script: 'dist/src/main.js',
