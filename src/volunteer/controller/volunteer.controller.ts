@@ -132,7 +132,7 @@ export class VolunteerController {
   @Delete(':id')
   @Roles(RolesEnum.Admin)
   @ApiOperation({ summary: 'Delete Volunteer By Id' })
-  @ApiResponse({ status: HttpStatus.OK, type: GetVolunteerByIdUsecaseOutput })
+  @ApiResponse({ status: HttpStatus.OK, type: DeleteVolunteerByIdUsecaseOutput })
   async deleteVolunteerByIdUseCaseInput(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<DeleteVolunteerByIdUsecaseOutput> {

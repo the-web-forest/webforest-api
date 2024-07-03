@@ -5,7 +5,6 @@ import GetNewsByIdUseCase from '../../news/usecases/get.news.by.id.usecase';
 import { VolunteerRepositoryToken } from '../volunteer.tokens';
 import { IVolunteerRepository } from '../../domain/interfaces/repositories/volunteer.repository.interface';
 import VolunteerNotFoundError from '../../core/error/volunteer.not.found.error';
-import GetVolunteerByIdUsecaseOutput from '../controller/dtos/get.volunteer.by.id.output';
 import DeleteVolunteerByIdUsecaseOutput from '../controller/dtos/delete.volunteer.by.id.output';
 import DeleteVolunteerByIdUseCaseInput from '../controller/dtos/delete.volunteer.by.id.usecase.input';
 
