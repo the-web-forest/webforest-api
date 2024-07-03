@@ -7,7 +7,15 @@ import { Biome } from '../../domain/entities/biome';
 import { News } from '../../domain/entities/news';
 import { Volunteer } from '../../domain/entities/volunteer';
 
-const entities = [Role, User, ActivationRequest, PasswordResetRequest, Biome, News, Volunteer];
+const entities = [
+  Role,
+  User,
+  ActivationRequest,
+  PasswordResetRequest,
+  Biome,
+  News,
+  Volunteer,
+];
 
 export const TypeOrmSQLITETestingModule = () => [
   TypeOrmModule.forRoot({

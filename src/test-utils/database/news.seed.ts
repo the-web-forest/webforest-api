@@ -1,7 +1,5 @@
 import { faker } from '@faker-js/faker/locale/af_ZA';
-import { IBiomeRepository } from '../../domain/interfaces/repositories/biome.repository.interface';
 import { INewsRepository } from '../../domain/interfaces/repositories/news.repository.interface';
-import { IRoleRepository } from '../../domain/interfaces/repositories/role.repository.interface';
 
 export default class NewsSeedTestHelper {
   static async seed(newsRepository: INewsRepository) {
@@ -34,6 +32,5 @@ export default class NewsSeedTestHelper {
       updatedAt: new Date(),
       isDeleted: false,
     });
-   
   }
 }

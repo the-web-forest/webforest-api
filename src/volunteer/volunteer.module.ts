@@ -3,6 +3,7 @@ import { VolunteerController } from './controller/volunteer.controller';
 import {
   CreateVolunteerUseCaseToken,
   GetVolunteerByIdUseCaseToken,
+  ListVolunteersUseCaseToken,
   UpdateVolunteerUseCaseToken,
   VolunteerRepositoryToken,
 } from './volunteer.tokens';
@@ -12,6 +13,7 @@ import { Volunteer } from '../domain/entities/volunteer';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import UpdateVolunteerUseCase from './usecases/update.volunteer.usecase';
 import GetVolunteerByIdUseCase from './usecases/get.volunteer.by.id.usecase';
+import ListVolunteersUseCase from './usecases/list.volunteers..usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Volunteer])],
@@ -31,6 +33,10 @@ import GetVolunteerByIdUseCase from './usecases/get.volunteer.by.id.usecase';
     {
       provide: GetVolunteerByIdUseCaseToken,
       useClass: GetVolunteerByIdUseCase,
+    },
+    {
+      provide: ListVolunteersUseCaseToken,
+      useClass: ListVolunteersUseCase,
     },
   ],
   controllers: [VolunteerController],

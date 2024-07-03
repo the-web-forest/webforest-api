@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import CreateVolunteerControllerInput from './dtos/create.volunteer.controller.input';
 import { Roles } from '../../auth/decorators/role.decorator';
@@ -18,6 +19,7 @@ import CreateVolunteerControllerOutput from './dtos/create.volunteer.controller.
 import {
   CreateVolunteerUseCaseToken,
   GetVolunteerByIdUseCaseToken,
+  ListVolunteersUseCaseToken,
   UpdateVolunteerUseCaseToken,
 } from '../volunteer.tokens';
 import IUseCase from '../../domain/interfaces/usecase/IUseCase';
@@ -29,6 +31,11 @@ import UpdateVolunteerUseCaseInput from '../usecases/dtos/update.volunteer.useca
 import UpdateVolunteerUseCaseOutput from '../usecases/dtos/update.volunteer.usecase.output';
 import GetVolunteerByIdUsecaseOutput from './dtos/get.volunteer.by.id.output';
 import GetVolunteerByIdUseCaseInput from './dtos/get.volunteer.by.id.usecase.input';
+import { Public } from '../../auth/decorators/public.decorator';
+import ListVolunteersOutput from './dtos/list.volunteers.output';
+import ListVolunteersUseCaseInput from '../usecases/dtos/list.volunteers.usecase.input';
+import ListVolunteersUseCaseOutput from '../usecases/dtos/list.volunteers.usecase.output';
+import ListVolunteersInput from './dtos/list.volunteers.input';
 
 @Controller('volunteer')
 @ApiTags('Volunteer')
@@ -52,6 +59,12 @@ export class VolunteerController {
     private readonly getVolunteerByIdUseCase: IUseCase<
       GetVolunteerByIdUseCaseInput,
       GetVolunteerByIdUsecaseOutput
+    >,
+
+    @Inject(ListVolunteersUseCaseToken)
+    private readonly listVolunteersUseCase: IUseCase<
+      ListVolunteersUseCaseInput,
+      ListVolunteersUseCaseOutput
     >,
   ) {}
 
@@ -78,6 +91,19 @@ export class VolunteerController {
     this.logger.log('update', { ...input, id });
     const useCaseInput = new UpdateVolunteerUseCaseInput({ ...input, id });
     return await this.updateVolunteerUseCase.run(useCaseInput);
+  }
+
+  @Get('/list')
+  @Public()
+  @ApiOperation({ summary: 'Get Volunteers' })
+  @ApiResponse({ status: HttpStatus.OK, type: ListVolunteersOutput })
+  async getTopVolunteerByQuantity(
+    @Query() query: ListVolunteersInput,
+  ): Promise<ListVolunteersOutput> {
+    const useCaseInput = new ListVolunteersUseCaseInput({
+      ...query,
+    });
+    return await this.listVolunteersUseCase.run(useCaseInput);
   }
 
   @Get(':id')

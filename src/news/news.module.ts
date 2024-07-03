@@ -5,11 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   CreateNewsUseCaseToken,
   GetNewsByIdUseCaseToken,
+  ListNewsUseCaseToken,
   NewsRepositoryToken,
 } from './news.tokens';
 import NewsRepository from '../external/repositories/news.repository';
 import CreateNewsUseCase from './usecases/create.news.usecase';
 import GetNewsByIdUseCase from './usecases/get.news.by.id.usecase';
+import ListNewsUseCase from './usecases/list.news.usecase';
 
 @Module({
   controllers: [NewsController],
@@ -26,6 +28,10 @@ import GetNewsByIdUseCase from './usecases/get.news.by.id.usecase';
     {
       provide: GetNewsByIdUseCaseToken,
       useClass: GetNewsByIdUseCase,
+    },
+    {
+      provide: ListNewsUseCaseToken,
+      useClass: ListNewsUseCase,
     },
   ],
 })

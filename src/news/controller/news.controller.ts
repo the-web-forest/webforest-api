@@ -7,6 +7,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import CreateNewsControllerInput from './dtos/create.news.controller.input';
@@ -14,6 +15,7 @@ import CreateNewsControllerOutput from './dtos/create.news.controller.output';
 import {
   CreateNewsUseCaseToken,
   GetNewsByIdUseCaseToken,
+  ListNewsUseCaseToken,
 } from '../news.tokens';
 import CreateNewsUseCaseInput from '../usecases/dtos/create.news.usecase.input';
 import IUseCase from '../../domain/interfaces/usecase/IUseCase';
@@ -23,6 +25,11 @@ import GetNewsByIdUseCaseOutput from '../usecases/dtos/get.news.by.id.usecase.ou
 import { Roles } from '../../auth/decorators/role.decorator';
 import { RolesEnum } from '../../auth/enums/roles';
 import GetBiomeByIdUseCaseOutput from '../../biome/usecases/dtos/get.biome.by.id.usecase.output';
+import { Public } from '../../auth/decorators/public.decorator';
+import ListNewsUseCaseInput from '../usecases/dtos/list.news.usecase.input';
+import ListNewsUseCaseOutput from '../usecases/dtos/list.news.usecase.output';
+import ListNewsInput from './dtos/list.news.input';
+import ListNewsOutput from './dtos/list.news.output';
 
 @Controller('news')
 @ApiTags('News')
@@ -39,6 +46,12 @@ export class NewsController {
       GetNewsByIdUseCaseInput,
       GetNewsByIdUseCaseOutput
     >,
+
+    @Inject(ListNewsUseCaseToken)
+    private readonly listNewsUseCase: IUseCase<
+      ListNewsUseCaseInput,
+      ListNewsUseCaseOutput
+    >,
   ) {}
 
   @Post()
@@ -49,6 +62,19 @@ export class NewsController {
   ): Promise<CreateNewsControllerOutput> {
     const useCaseInput = new CreateNewsUseCaseInput({ ...input });
     return await this.createNewsUseCase.run(useCaseInput);
+  }
+
+  @Get('/list')
+  @Public()
+  @ApiOperation({ summary: 'List News' })
+  @ApiResponse({ status: HttpStatus.OK, type: ListNewsOutput })
+  async getTopVolunteerByQuantity(
+    @Query() query: ListNewsInput,
+  ): Promise<ListNewsOutput> {
+    const useCaseInput = new ListNewsUseCaseInput({
+      ...query,
+    });
+    return await this.listNewsUseCase.run(useCaseInput);
   }
 
   @Get(':id')
