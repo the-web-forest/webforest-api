@@ -33,7 +33,7 @@ export class User extends BaseEntity {
   @Column({ name: 'is_active', default: true, nullable: false })
   isActive: boolean;
 
-  @Column({ name: 'is_deleted', default: false, nullable: false })
+  @Column({ name: 'is_deleted', default: false, nullable: false, select: false })
   isDeleted: boolean;
 
   @Column({ name: 'created_at', nullable: false })

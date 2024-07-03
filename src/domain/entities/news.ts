@@ -17,7 +17,7 @@ export class News extends BaseEntity {
     @Column({ name: 'publish_date', nullable: false })
     publishDate: Date;
 
-    @Column({ name: 'is_deleted', nullable: false, default: false })
+    @Column({ name: 'is_deleted', nullable: false, default: false, select: false })
     isDeleted: boolean;
 
     @Column({ name: 'created_at', nullable: false })
