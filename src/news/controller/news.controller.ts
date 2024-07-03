@@ -2,15 +2,15 @@ import { Body, Controller, Get, HttpStatus, Inject, Param, ParseIntPipe, Post } 
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import CreateNewsControllerInput from './dtos/create.news.controller.input';
 import CreateNewsControllerOutput from './dtos/create.news.controller.output';
-import { CreateNewsUseCaseToken, GetNewsByIdUseCaseToken, NewsRepositoryToken } from './news.tokens';
-import CreateNewsUseCaseInput from './usecases/dtos/create.news.usecase.input';
-import IUseCase from '../domain/interfaces/usecase/IUseCase';
-import CreateNewsUseCaseOutput from './usecases/dtos/create.news.usecase.output';
-import GetNewsByIdUseCaseInput from './usecases/dtos/get.news.by.id.usecase.input';
-import GetNewsByIdUseCaseOutput from './usecases/dtos/get.news.by.id.usecase.output';
-import { Roles } from '../auth/decorators/role.decorator';
-import { RolesEnum } from '../auth/enums/roles';
-import GetBiomeByIdUseCaseOutput from '../biome/usecases/dtos/get.biome.by.id.usecase.output';
+import { CreateNewsUseCaseToken, GetNewsByIdUseCaseToken, NewsRepositoryToken } from '../news.tokens';
+import CreateNewsUseCaseInput from '../usecases/dtos/create.news.usecase.input';
+import IUseCase from '../../domain/interfaces/usecase/IUseCase';
+import CreateNewsUseCaseOutput from '../usecases/dtos/create.news.usecase.output';
+import GetNewsByIdUseCaseInput from '../usecases/dtos/get.news.by.id.usecase.input';
+import GetNewsByIdUseCaseOutput from '../usecases/dtos/get.news.by.id.usecase.output';
+import { Roles } from '../../auth/decorators/role.decorator';
+import { RolesEnum } from '../../auth/enums/roles';
+import GetBiomeByIdUseCaseOutput from '../../biome/usecases/dtos/get.biome.by.id.usecase.output';
 
 @Controller('news')
 @ApiTags('News')
