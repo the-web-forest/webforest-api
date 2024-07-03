@@ -15,6 +15,8 @@
 |WF-0004 |NickName Already Registered|
 |WF-0005 |Biome Already Registered|
 |WF-0006 |Volunteer Already Registered|
+|WF-0007 |News Not Found|
+|WF-0008 |Volunteer Not Found|
 
 # Contributors
 # FAQ

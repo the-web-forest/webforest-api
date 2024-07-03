@@ -19,8 +19,8 @@ export default class GetNewsByIdUseCase implements IUseCase<GetNewsByIdUseCaseIn
     async run(input: GetNewsByIdUseCaseInput): Promise<GetNewsByIdUseCaseOutput> {
         this.logger.log('Starting')
 
-        const news = await this.newsRepository.findOne({ where: { id: input.id } });
-
+        const news = await this.newsRepository.findOne({ where: { id: input.id, isDeleted: false } });
+         
         if (!news) {
             throw new NewsNotFoundError();
         };

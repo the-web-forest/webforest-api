@@ -27,4 +27,7 @@ export class Volunteer extends BaseEntity {
 
   @Column({ name: 'photo_url', nullable: true })
   photoUrl: string;
+
+  @Column({ name: 'is_deleted', nullable: false, default: false })
+  isDeleted: boolean;
 }
