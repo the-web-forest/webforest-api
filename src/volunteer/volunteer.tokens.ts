@@ -8,6 +8,10 @@ export const GetVolunteerByIdUseCaseToken = Symbol(
   'GetVolunteerByIdUseCaseToken',
 );
 
+export const DeleteVolunteerByIdUseCaseToken = Symbol(
+  'DeleteVolunteerByIdUseCaseToken',
+);
+
 export const ListVolunteersUseCaseToken = Symbol('ListVolunteersUseCaseToken');
 
 // Repositories
