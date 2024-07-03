@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { NewsController } from './news.controller';
+import { NewsController } from './controller/news.controller';
 import { News } from '../domain/entities/news';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateNewsUseCaseToken, GetNewsByIdUseCaseToken, NewsRepositoryToken } from './news.tokens';
