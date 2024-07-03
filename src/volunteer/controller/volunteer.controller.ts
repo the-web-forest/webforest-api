@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Inject,
@@ -18,6 +19,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import CreateVolunteerControllerOutput from './dtos/create.volunteer.controller.output';
 import {
   CreateVolunteerUseCaseToken,
+  DeleteVolunteerByIdUseCaseToken,
   GetVolunteerByIdUseCaseToken,
   ListVolunteersUseCaseToken,
   UpdateVolunteerUseCaseToken,
@@ -36,6 +38,8 @@ import ListVolunteersOutput from './dtos/list.volunteers.output';
 import ListVolunteersUseCaseInput from '../usecases/dtos/list.volunteers.usecase.input';
 import ListVolunteersUseCaseOutput from '../usecases/dtos/list.volunteers.usecase.output';
 import ListVolunteersInput from './dtos/list.volunteers.input';
+import DeleteVolunteerByIdUsecaseOutput from './dtos/delete.volunteer.by.id.output';
+import DeleteVolunteerByIdUseCaseInput from './dtos/delete.volunteer.by.id.usecase.input';
 
 @Controller('volunteer')
 @ApiTags('Volunteer')
@@ -59,6 +63,12 @@ export class VolunteerController {
     private readonly getVolunteerByIdUseCase: IUseCase<
       GetVolunteerByIdUseCaseInput,
       GetVolunteerByIdUsecaseOutput
+    >,
+
+    @Inject(DeleteVolunteerByIdUseCaseToken)
+    private readonly deleteVolunteerByIdUseCase: IUseCase<
+      DeleteVolunteerByIdUseCaseInput,
+      DeleteVolunteerByIdUsecaseOutput
     >,
 
     @Inject(ListVolunteersUseCaseToken)
@@ -110,12 +120,25 @@ export class VolunteerController {
   @Roles(RolesEnum.Admin)
   @ApiOperation({ summary: 'Get Volunteer By Id' })
   @ApiResponse({ status: HttpStatus.OK, type: GetVolunteerByIdUsecaseOutput })
-  async GetVolunteerByIdUseCaseInput(
+  async getVolunteerByIdUseCaseInput(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<GetVolunteerByIdUsecaseOutput> {
     const useCaseInput = new GetVolunteerByIdUseCaseInput({
       id,
     });
     return await this.getVolunteerByIdUseCase.run(useCaseInput);
+  }
+
+  @Delete(':id')
+  @Roles(RolesEnum.Admin)
+  @ApiOperation({ summary: 'Delete Volunteer By Id' })
+  @ApiResponse({ status: HttpStatus.OK, type: DeleteVolunteerByIdUsecaseOutput })
+  async deleteVolunteerByIdUseCaseInput(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<DeleteVolunteerByIdUsecaseOutput> {
+    const useCaseInput = new DeleteVolunteerByIdUseCaseInput({
+      id,
+    });
+    return await this.deleteVolunteerByIdUseCase.run(useCaseInput);
   }
 }

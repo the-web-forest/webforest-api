@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { VolunteerController } from './controller/volunteer.controller';
 import {
   CreateVolunteerUseCaseToken,
+  DeleteVolunteerByIdUseCaseToken,
   GetVolunteerByIdUseCaseToken,
   ListVolunteersUseCaseToken,
   UpdateVolunteerUseCaseToken,
@@ -14,6 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import UpdateVolunteerUseCase from './usecases/update.volunteer.usecase';
 import GetVolunteerByIdUseCase from './usecases/get.volunteer.by.id.usecase';
 import ListVolunteersUseCase from './usecases/list.volunteers..usecase';
+import DeleteVolunteerByIdUseCase from './usecases/delete.volunteer.by.id.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Volunteer])],
@@ -38,6 +40,10 @@ import ListVolunteersUseCase from './usecases/list.volunteers..usecase';
       provide: ListVolunteersUseCaseToken,
       useClass: ListVolunteersUseCase,
     },
+    {
+      provide: DeleteVolunteerByIdUseCaseToken,
+      useClass: DeleteVolunteerByIdUseCase,
+    }
   ],
   controllers: [VolunteerController],
 })
