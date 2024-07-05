@@ -43,7 +43,7 @@ export class BiomeController {
     @Put(':id')
     @Roles(RolesEnum.Admin)
     @ApiOperation({ summary: 'Update Biome By Id' })
-    @ApiResponse({ status: HttpStatus.OK, type: NewBiomeUseCaseOutput })
+    @ApiResponse({ status: HttpStatus.OK, type: UpdateBiomeUseCaseOutput })
     async updateBiome(@Body() input: BiomeUpdateRequestInput, @Param('id', ParseIntPipe) id: number): Promise<UpdateBiomeUseCaseOutput> {
         const useCaseInput = new UpdateBiomeUseCaseInput({
             id,
