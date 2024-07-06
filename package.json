@@ -89,7 +89,8 @@
       "<rootDir>/src/app/main.ts",
       ".mock.ts",
       "main.ts",
-      ".guard.ts"
+      ".guard.ts",
+      ".seed.ts"
     ],
     "testEnvironment": "node"
   }
