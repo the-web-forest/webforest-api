@@ -18,6 +18,7 @@ export default class ListNewsUseCase
   ) {}
 
   async run(input: ListNewsUseCaseInput): Promise<ListNewsUseCaseOutput> {
+    this.logger.log('Starting')
     const skip = input.itemsPerPage * input.page - input.itemsPerPage;
 
     let selectQueryBuilder = this.newsRepository

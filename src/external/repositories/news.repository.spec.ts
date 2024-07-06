@@ -29,6 +29,6 @@ describe('News Repository Tests', () => {
 
   it('should find all news', async () => {
     const news = await newsRepository.find();
-    expect(news.length).toBe(3);
+    expect(news.length).toBe(50);
   });
 });

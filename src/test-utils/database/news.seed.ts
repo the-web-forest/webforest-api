@@ -3,34 +3,16 @@ import { INewsRepository } from '../../domain/interfaces/repositories/news.repos
 
 export default class NewsSeedTestHelper {
   static async seed(newsRepository: INewsRepository) {
-    await newsRepository.save({
-      title: faker.music.songName(),
-      url: faker.internet.url(),
-      imageUrl: faker.image.url(),
-      publishDate: new Date(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isDeleted: false,
-    });
-
-    await newsRepository.save({
-      title: faker.music.songName(),
-      url: faker.internet.url(),
-      imageUrl: faker.image.url(),
-      publishDate: new Date(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isDeleted: false,
-    });
-
-    await newsRepository.save({
-      title: faker.music.songName(),
-      url: faker.internet.url(),
-      imageUrl: faker.image.url(),
-      publishDate: new Date(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isDeleted: false,
-    });
+    for (let i = 0; i < 50; i++) {
+      await newsRepository.save({
+        title: faker.music.songName(),
+        url: faker.internet.url(),
+        imageUrl: faker.image.url(),
+        publishDate: faker.date.past(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isDeleted: false,
+      });
+    }
   }
 }
