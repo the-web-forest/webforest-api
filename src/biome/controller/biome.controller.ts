@@ -1,8 +1,22 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Inject, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    HttpStatus,
+    Inject,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+} from '@nestjs/common';
 import { RolesEnum } from '../../auth/enums/roles';
 import { Roles } from '../../auth/decorators/role.decorator';
 import NewBiomeControllerInput from './dto/new.biome.controller.input';
-import { GetBiomeByIdUseCaseToken, NewBiomeUseCaseToken, UpdateBiomeUseCaseToken } from '../biome.token';
+import {
+    GetBiomeByIdUseCaseToken,
+    NewBiomeUseCaseToken,
+    UpdateBiomeUseCaseToken,
+} from '../biome.token';
 import IUseCase from '../../domain/interfaces/usecase/IUseCase';
 import NewBiomeUseCaseInput from '../usecases/dtos/new.biome.usecase.input';
 import NewBiomeUseCaseOutput from '../usecases/dtos/new.biome.usecase.output';
@@ -13,54 +27,67 @@ import GetBiomeByIdUseCaseOutput from '../usecases/dtos/get.biome.by.id.usecase.
 import GetBiomeByIdUseCaseInput from '../usecases/dtos/get.biome.by.id.usecase.input';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-
 @Controller('biome')
 @ApiTags('Biome')
 export class BiomeController {
-
     constructor(
         @Inject(NewBiomeUseCaseToken)
-        private readonly newBiomeUseCase: IUseCase<NewBiomeUseCaseInput, NewBiomeUseCaseOutput>,
+        private readonly newBiomeUseCase: IUseCase<
+            NewBiomeUseCaseInput,
+            NewBiomeUseCaseOutput
+        >,
 
         @Inject(UpdateBiomeUseCaseToken)
-        private readonly updateBiomeUseCase: IUseCase<UpdateBiomeUseCaseInput, UpdateBiomeUseCaseOutput>,
+        private readonly updateBiomeUseCase: IUseCase<
+            UpdateBiomeUseCaseInput,
+            UpdateBiomeUseCaseOutput
+        >,
 
         @Inject(GetBiomeByIdUseCaseToken)
-        private readonly getBiomeByIdUseCase: IUseCase<GetBiomeByIdUseCaseInput, GetBiomeByIdUseCaseOutput>
+        private readonly getBiomeByIdUseCase: IUseCase<
+            GetBiomeByIdUseCaseInput,
+            GetBiomeByIdUseCaseOutput
+        >,
     ) { }
 
     @Post()
     @Roles(RolesEnum.Admin)
     @ApiOperation({ summary: 'Create new Biome' })
     @ApiResponse({ status: HttpStatus.OK, type: NewBiomeUseCaseOutput })
-    async createBiome(@Body() input: NewBiomeControllerInput): Promise<NewBiomeUseCaseOutput> {
+    async createBiome(
+        @Body() input: NewBiomeControllerInput,
+    ): Promise<NewBiomeUseCaseOutput> {
         const useCaseInput = new NewBiomeUseCaseInput({
-            ...input
-        })
-        return await this.newBiomeUseCase.run(useCaseInput)
+            ...input,
+        });
+        return await this.newBiomeUseCase.run(useCaseInput);
     }
 
     @Put(':id')
     @Roles(RolesEnum.Admin)
     @ApiOperation({ summary: 'Update Biome By Id' })
     @ApiResponse({ status: HttpStatus.OK, type: UpdateBiomeUseCaseOutput })
-    async updateBiome(@Body() input: BiomeUpdateRequestInput, @Param('id', ParseIntPipe) id: number): Promise<UpdateBiomeUseCaseOutput> {
+    async updateBiome(
+        @Body() input: BiomeUpdateRequestInput,
+        @Param('id', ParseIntPipe) id: number,
+    ): Promise<UpdateBiomeUseCaseOutput> {
         const useCaseInput = new UpdateBiomeUseCaseInput({
             id,
             name: input.name
-        })
-        return await this.updateBiomeUseCase.run(useCaseInput)
+        });
+        return await this.updateBiomeUseCase.run(useCaseInput);
     }
+
     @Get(':id')
     @Roles(RolesEnum.Admin)
     @ApiOperation({ summary: 'Get Biome By Id' })
     @ApiResponse({ status: HttpStatus.OK, type: GetBiomeByIdUseCaseOutput })
-    async getBiomeById(@Param('id', ParseIntPipe) id: number): Promise<GetBiomeByIdUseCaseOutput> {
+    async getBiomeById(
+        @Param('id', ParseIntPipe) id: number,
+    ): Promise<GetBiomeByIdUseCaseOutput> {
         const useCaseInput = new GetBiomeByIdUseCaseInput({
-            id
-        })
-        return await this.getBiomeByIdUseCase.run(useCaseInput)
-
+            id,
+        });
+        return await this.getBiomeByIdUseCase.run(useCaseInput);
     }
 }
-

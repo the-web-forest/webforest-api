@@ -1,4 +1,3 @@
-
 // Usecases
 
 export const CreateUserUseCaseToken = Symbol('CreateUserUseCaseToken');

@@ -76,20 +76,24 @@ describe('Create User Use Case', () => {
     const user2 = {
       firstName: firstName,
       lastName: lastName,
-      email: faker.internet.email({ firstName, lastName, provider: 'webforest.eco' }),
+      email: faker.internet.email({
+        firstName,
+        lastName,
+        provider: 'webforest.eco',
+      }),
       password: faker.internet.password(),
     };
     const response1 = await usecase.run(new CreateUserUseCaseInput(user1));
     const response2 = await usecase.run(new CreateUserUseCaseInput(user2));
-    const isSameNickName = response1.nickName === response2.nickName
-    expect(response1.nickName).toBeDefined()
-    expect(response2.nickName).toBeDefined()
-    expect(isSameNickName).toBeFalsy()
+    const isSameNickName = response1.nickName === response2.nickName;
+    expect(response1.nickName).toBeDefined();
+    expect(response2.nickName).toBeDefined();
+    expect(isSameNickName).toBeFalsy();
   });
 
   it('should not create an nickname bigger than 16 characters', async () => {
     const firstName = 'FredericoAntonio';
-    const lastName = 'MonteirodaSilva'
+    const lastName = 'MonteirodaSilva';
     const user1 = {
       firstName: firstName,
       lastName: lastName,
@@ -116,16 +120,23 @@ describe('Create User Use Case', () => {
     const user2 = {
       firstName: firstName,
       lastName: lastName,
-      email: faker.internet.email({ firstName, lastName, provider: 'webforest.eco' }),
+      email: faker.internet.email({
+        firstName,
+        lastName,
+        provider: 'webforest.eco',
+      }),
       password: faker.internet.password(),
     };
 
     const response1 = await usecase.run(new CreateUserUseCaseInput(user1));
-    jest.spyOn(usecase as any, 'generateNickName').mockResolvedValueOnce(response1.nickName).mockResolvedValue(faker.internet.userName())
+    jest
+      .spyOn(usecase as any, 'generateNickName')
+      .mockResolvedValueOnce(response1.nickName)
+      .mockResolvedValue(faker.internet.userName());
     const response2 = await usecase.run(new CreateUserUseCaseInput(user2));
-    expect(response1.nickName).toBeDefined()
-    expect(response2.nickName).toBeDefined()
-    expect(response1.nickName).not.toBe(response2.nickName)
+    expect(response1.nickName).toBeDefined();
+    expect(response2.nickName).toBeDefined();
+    expect(response1.nickName).not.toBe(response2.nickName);
   });
 
   it('should not create an user with same email', async () => {

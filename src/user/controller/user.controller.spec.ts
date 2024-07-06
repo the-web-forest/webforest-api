@@ -32,7 +32,7 @@ describe('UserController', () => {
     nickName: faker.internet.userName(),
     email: faker.internet.email(),
     createdAt: faker.date.anytime(),
-    updatedAt: faker.date.anytime()
+    updatedAt: faker.date.anytime(),
   });
 
   const sendUserActivationEmailUseCaseResponse =
@@ -57,7 +57,7 @@ describe('UserController', () => {
     lastName: faker.person.lastName(),
     nickName: faker.internet.userName(),
     updatedAt: faker.date.anytime(),
-  })
+  });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -153,12 +153,20 @@ describe('UserController', () => {
 
   it('should call usecase.run on updateUserProfile', async () => {
     const input = new UserUpdateRequestInput();
-    const request = { user: { id: faker.number.int } } as any
-    const controllerResponse = await controller.updateUserProfile(input, request);
-   
-    expect(controllerResponse.firstName).toBe(updateUserUseCaseResponse.firstName);
-    expect(controllerResponse.lastName).toBe(updateUserUseCaseResponse.lastName);
-    expect(controllerResponse.nickName).toBe(updateUserUseCaseResponse.nickName);
-  });
+    const request = { user: { id: faker.number.int } } as any;
+    const controllerResponse = await controller.updateUserProfile(
+      input,
+      request,
+    );
 
+    expect(controllerResponse.firstName).toBe(
+      updateUserUseCaseResponse.firstName,
+    );
+    expect(controllerResponse.lastName).toBe(
+      updateUserUseCaseResponse.lastName,
+    );
+    expect(controllerResponse.nickName).toBe(
+      updateUserUseCaseResponse.nickName,
+    );
+  });
 });

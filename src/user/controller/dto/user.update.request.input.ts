@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export default class UserUpdateRequestInput {
   @IsOptional()
   @IsString()
   @ApiProperty({
     description: 'User firstName',
-    required: false
+    required: false,
   })
   firstName?: string;
 
@@ -14,7 +14,7 @@ export default class UserUpdateRequestInput {
   @IsString()
   @ApiProperty({
     description: 'User lastName',
-    required: false
+    required: false,
   })
   lastName?: string;
 
@@ -22,7 +22,7 @@ export default class UserUpdateRequestInput {
   @IsString()
   @ApiProperty({
     description: 'User nickName',
-    required: false
+    required: false,
   })
   nickName?: string;
 
@@ -30,7 +30,7 @@ export default class UserUpdateRequestInput {
   @IsString()
   @ApiProperty({
     description: 'User password',
-    required: false
+    required: false,
   })
   password?: string;
 }

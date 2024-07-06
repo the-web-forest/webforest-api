@@ -29,5 +29,4 @@ describe('User Repository Tests', () => {
     expect(user.lastName).toBe(user.lastName);
     expect(user.nickName).toBe(user.nickName);
   });
-
 });

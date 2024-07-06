@@ -18,6 +18,5 @@ export default class UserSeedTestHelper {
         updatedAt: new Date(),
       });
     }
-
   }
 }

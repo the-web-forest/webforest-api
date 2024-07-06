@@ -1,14 +1,12 @@
 import {
   Body,
   Controller,
-  Get,
   HttpStatus,
   Inject,
   Logger,
   Patch,
   Post,
   Req,
-  UseGuards,
 } from '@nestjs/common';
 import { NewUserControllerInput } from './dto/new.user.controller.input';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -72,8 +70,11 @@ export class UserController {
     >,
 
     @Inject(UpdateUserUseCaseToken)
-    private readonly updateUserUseCase: IUseCase<UpdateUserUseCaseInput, UpdateUserUseCaseOutput>
-  ) { }
+    private readonly updateUserUseCase: IUseCase<
+      UpdateUserUseCaseInput,
+      UpdateUserUseCaseOutput
+    >,
+  ) {}
 
   @Post()
   @Public()
@@ -153,11 +154,17 @@ export class UserController {
   @Patch()
   @ApiOperation({ summary: 'User Self Update' })
   @ApiResponse({ status: HttpStatus.OK, type: UserUpdateRequestOutput })
-  async updateUserProfile(@Body() input: UserUpdateRequestInput, @Req() request: { user: User }): Promise<UserUpdateRequestOutput> {
-    this.logger.log(`User ${request.user.email} is self updating with this data`, { ...input })
+  async updateUserProfile(
+    @Body() input: UserUpdateRequestInput,
+    @Req() request: { user: User },
+  ): Promise<UserUpdateRequestOutput> {
+    this.logger.log(
+      `User ${request.user.email} is self updating with this data`,
+      { ...input },
+    );
     const useCaseInput = new UpdateUserUseCaseInput({
       ...input,
-      id: request.user.id
+      id: request.user.id,
     });
     const response = await this.updateUserUseCase.run(useCaseInput);
     return UserUpdateRequestOutput.fromUseCaseResponse(response);

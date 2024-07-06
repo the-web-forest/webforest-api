@@ -13,6 +13,6 @@ export default class UpdateUserUseCaseOutput extends PartialClass {
       lastName: user.lastName,
       nickName: user.nickName,
       updatedAt: user.updatedAt,
-    })
+    });
   }
 }
