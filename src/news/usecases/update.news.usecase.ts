@@ -26,7 +26,8 @@ export default class UpdateNewsUseCase
         if (!news) {
             throw new NewsNotFoundError();
         }
-        return await this.update(input, news);
+        
+        return await this.update(input, news); //this.newsRepository.save({ ...input });
     }
 
 
@@ -34,16 +35,16 @@ export default class UpdateNewsUseCase
 
         Object.assign(news, input);
 
-        if (input.title) {
-            this.logger.log('Updating news title')
-            const titleIsAlreadyRegistered = await this.newsRepository.findOne({ where: { title: input.title, id: Not(news.id) } });
+        if (input.url) {
+            this.logger.log('Updating news url')
+            const urlIsAlreadyRegistered = await this.newsRepository.findOne({ where: { url: input.url, id: Not(news.id) } });
 
-            if (titleIsAlreadyRegistered) {
-                this.logger.warn(`News ${titleIsAlreadyRegistered.title} is already registered`)
+            if (urlIsAlreadyRegistered) {
+                this.logger.warn(`News ${urlIsAlreadyRegistered.url} is already registered`)
                 throw new NewsAlreadyRegisteredError()
             }
 
-            this.logger.log(`Title ${input.title} is free to use`)
+            this.logger.log(`Url ${input.url} is free to use`)
         }
 
         news.updatedAt = new Date()

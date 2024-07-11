@@ -27,13 +27,13 @@ import GetNewsByIdUseCaseOutput from '../usecases/dtos/get.news.by.id.usecase.ou
 import { Roles } from '../../auth/decorators/role.decorator';
 import { RolesEnum } from '../../auth/enums/roles';
 import UpdateNewsUseCaseOutuput from '../usecases/dtos/update.news.usecase.output';
-import NewsUpdateRequestInput from './dtos/news.update.request.input';
 import UpdateNewsUseCaseInput from '../usecases/dtos/update.news.usecase.input';
 import { Public } from '../../auth/decorators/public.decorator';
 import ListNewsUseCaseInput from '../usecases/dtos/list.news.usecase.input';
 import ListNewsUseCaseOutput from '../usecases/dtos/list.news.usecase.output';
 import ListNewsInput from './dtos/list.news.input';
 import ListNewsOutput from './dtos/list.news.output';
+import UpdateNewsRequestInput from './dtos/news.update.request.input';
 
 @Controller('news')
 @ApiTags('News')
@@ -53,10 +53,10 @@ export class NewsController {
 
         @Inject(UpdateNewsUseCaseToken)
         private readonly updateNewsUseCase: IUseCase<
-            UpdateNewsUseCaseInput, 
+            UpdateNewsUseCaseInput,
             UpdateNewsUseCaseOutuput
         >,
-    
+
         @Inject(ListNewsUseCaseToken)
         private readonly listNewsUseCase: IUseCase<
             ListNewsUseCaseInput,
@@ -82,8 +82,8 @@ export class NewsController {
         @Param('id', ParseIntPipe) id: number,
     ): Promise<GetNewsByIdUseCaseOutput> {
         const useCaseInput = new GetNewsByIdUseCaseInput({
-            id
-        })
+            id,
+        });
         return await this.getNewsByIdUseCase.run(useCaseInput)
     }
 
@@ -91,11 +91,11 @@ export class NewsController {
     @Roles(RolesEnum.Admin)
     @ApiOperation({ summary: 'Update News' })
     @ApiResponse({ status: HttpStatus.OK, type: UpdateNewsUseCaseOutuput })
-    async updateNews(@Body() input: NewsUpdateRequestInput, @Param('id', ParseIntPipe) id: number): Promise<UpdateNewsUseCaseOutuput> {
+    async updateNews(@Body() input: UpdateNewsRequestInput, @Param('id', ParseIntPipe) id: number): Promise<UpdateNewsUseCaseOutuput> {
         const useCaseInput = new UpdateNewsUseCaseInput({
             id,
-            title: input.title
-        })
+            ...input,
+        });
         return await this.updateNewsUseCase.run(useCaseInput)
     }
 

@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsString, IsUrl } from "class-validator";
 
-export default class NewsUpdateRequestInput {
+export default class UpdateNewsRequestInput {
     @IsString()
     @ApiProperty({
         description: 'News title',
@@ -9,20 +9,20 @@ export default class NewsUpdateRequestInput {
     title: string;
 
     @IsString()
-    @IsUrl()
+   // @IsUrl()
     @ApiProperty({
         description: 'News URL'
     })
     url: string;
 
-    @IsString()
-    @IsUrl()
+    //@IsString()
+   // @IsUrl()
     @ApiProperty({
         description: 'Image URL of the news',
     })
     imageUrl: string;
 
-    @IsDate()
+    //@IsDate()
     @ApiProperty({
         description: 'Publish date of the news',
         format: 'date-time'
