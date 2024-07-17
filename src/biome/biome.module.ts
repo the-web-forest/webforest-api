@@ -4,14 +4,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Biome } from '../domain/entities/biome';
 import {
   BiomeRepositoryToken,
+  CreateBiomeUseCaseToken,
   GetBiomeByIdUseCaseToken,
-  NewBiomeUseCaseToken,
   UpdateBiomeUseCaseToken,
 } from './biome.token';
 import BiomeRepository from '../external/repositories/biome.repository';
-import NewBiomeUseCase from './usecases/new.biome.usecase';
 import UpdateBiomeUseCase from './usecases/update.biome.usecase';
 import GetBiomeByIdUseCase from './usecases/get.biome.by.id.usecase';
+import CreateBiomeUseCase from './usecases/create.biome.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Biome])],
@@ -21,8 +21,8 @@ import GetBiomeByIdUseCase from './usecases/get.biome.by.id.usecase';
       useClass: BiomeRepository,
     },
     {
-      provide: NewBiomeUseCaseToken,
-      useClass: NewBiomeUseCase,
+      provide: CreateBiomeUseCaseToken,
+      useClass: CreateBiomeUseCase,
     },
     {
       provide: UpdateBiomeUseCaseToken,

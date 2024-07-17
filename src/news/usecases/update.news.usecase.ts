@@ -27,7 +27,7 @@ export default class UpdateNewsUseCase
             throw new NewsNotFoundError();
         }
         
-        return await this.update(input, news); //this.newsRepository.save({ ...input });
+        return await this.update(input, news);
     }
 
 

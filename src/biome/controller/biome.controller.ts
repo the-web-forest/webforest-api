@@ -11,30 +11,30 @@ import {
 } from '@nestjs/common';
 import { RolesEnum } from '../../auth/enums/roles';
 import { Roles } from '../../auth/decorators/role.decorator';
-import NewBiomeControllerInput from './dto/new.biome.controller.input';
 import {
+    CreateBiomeUseCaseToken,
     GetBiomeByIdUseCaseToken,
-    NewBiomeUseCaseToken,
     UpdateBiomeUseCaseToken,
 } from '../biome.token';
 import IUseCase from '../../domain/interfaces/usecase/IUseCase';
-import NewBiomeUseCaseInput from '../usecases/dtos/new.biome.usecase.input';
-import NewBiomeUseCaseOutput from '../usecases/dtos/new.biome.usecase.output';
-import BiomeUpdateRequestInput from './dto/biome.update.request.input';
 import UpdateBiomeUseCaseInput from '../usecases/dtos/update.biome.usecase.input';
 import UpdateBiomeUseCaseOutput from '../usecases/dtos/update.biome.usecase.output';
 import GetBiomeByIdUseCaseOutput from '../usecases/dtos/get.biome.by.id.usecase.output';
 import GetBiomeByIdUseCaseInput from '../usecases/dtos/get.biome.by.id.usecase.input';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import UpdateBiomeRequestInput from './dtos/update.biome.request.input';
+import CreateBiomeUseCaseOutput from '../usecases/dtos/create.biome.usecase.output';
+import CreateBiomeControllerInput from './dtos/create.biome.controller.input';
+import CreateBiomeUseCaseInput from '../usecases/dtos/create.biome.usecase.input';
 
 @Controller('biome')
 @ApiTags('Biome')
 export class BiomeController {
     constructor(
-        @Inject(NewBiomeUseCaseToken)
+        @Inject(CreateBiomeUseCaseToken)
         private readonly newBiomeUseCase: IUseCase<
-            NewBiomeUseCaseInput,
-            NewBiomeUseCaseOutput
+            CreateBiomeUseCaseInput,
+            CreateBiomeUseCaseOutput
         >,
 
         @Inject(UpdateBiomeUseCaseToken)
@@ -53,11 +53,11 @@ export class BiomeController {
     @Post()
     @Roles(RolesEnum.Admin)
     @ApiOperation({ summary: 'Create new Biome' })
-    @ApiResponse({ status: HttpStatus.OK, type: NewBiomeUseCaseOutput })
+    @ApiResponse({ status: HttpStatus.OK, type: CreateBiomeUseCaseOutput })
     async createBiome(
-        @Body() input: NewBiomeControllerInput,
-    ): Promise<NewBiomeUseCaseOutput> {
-        const useCaseInput = new NewBiomeUseCaseInput({
+        @Body() input: CreateBiomeControllerInput,
+    ): Promise<CreateBiomeUseCaseOutput> {
+        const useCaseInput = new CreateBiomeUseCaseInput({
             ...input,
         });
         return await this.newBiomeUseCase.run(useCaseInput);
@@ -68,7 +68,7 @@ export class BiomeController {
     @ApiOperation({ summary: 'Update Biome By Id' })
     @ApiResponse({ status: HttpStatus.OK, type: UpdateBiomeUseCaseOutput })
     async updateBiome(
-        @Body() input: BiomeUpdateRequestInput,
+        @Body() input: UpdateBiomeRequestInput,
         @Param('id', ParseIntPipe) id: number,
     ): Promise<UpdateBiomeUseCaseOutput> {
         const useCaseInput = new UpdateBiomeUseCaseInput({

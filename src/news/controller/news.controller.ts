@@ -33,7 +33,7 @@ import ListNewsUseCaseInput from '../usecases/dtos/list.news.usecase.input';
 import ListNewsUseCaseOutput from '../usecases/dtos/list.news.usecase.output';
 import ListNewsInput from './dtos/list.news.input';
 import ListNewsOutput from './dtos/list.news.output';
-import UpdateNewsRequestInput from './dtos/news.update.request.input';
+import UpdateNewsRequestInput from './dtos/update.news.request.input';
 
 @Controller('news')
 @ApiTags('News')
