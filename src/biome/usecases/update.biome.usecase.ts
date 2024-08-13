@@ -38,7 +38,7 @@ export default class UpdateBiomeUseCase
     Object.assign(biome, input);
 
     if (input.name) {
-      this.logger.log('Updating bioma name');
+      this.logger.log('Updating biome name');
       const nameIsAlreadyRegistered = await this.biomeRepository.findOne({
         where: { name: input.name, id: Not(biome.id) },
       });
