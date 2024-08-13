@@ -64,6 +64,19 @@ export class NewsController {
         >,
     ) { }
 
+    @Get('/list')
+    @Public()
+    @ApiOperation({ summary: 'List News' })
+    @ApiResponse({ status: HttpStatus.OK, type: ListNewsOutput })
+    async listNews(
+        @Query() query: ListNewsInput,
+    ): Promise<ListNewsOutput> {
+        const useCaseInput = new ListNewsUseCaseInput({
+            ...query,
+        });
+        return await this.listNewsUseCase.run(useCaseInput);
+    }
+
     @Post()
     @ApiOperation({ summary: 'Create News' })
     @ApiResponse({ status: HttpStatus.OK, type: CreateNewsControllerOutput })
@@ -99,17 +112,6 @@ export class NewsController {
         return await this.updateNewsUseCase.run(useCaseInput)
     }
 
-    @Get('/list')
-    @Public()
-    @ApiOperation({ summary: 'List News' })
-    @ApiResponse({ status: HttpStatus.OK, type: ListNewsOutput })
-    async getTopVolunteerByQuantity(
-        @Query() query: ListNewsInput,
-    ): Promise<ListNewsOutput> {
-        const useCaseInput = new ListNewsUseCaseInput({
-            ...query,
-        });
-        return await this.listNewsUseCase.run(useCaseInput);
-    }
+
 
 }
